@@ -1,0 +1,77 @@
+/* css/style.css - THE EXECUTIVE VERSION */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 1. THE GLASS EFFECT */
+.glass-sidebar {
+    background: linear-gradient(180deg, #0B1120 0%, #111827 100%);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-header {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* 2. CARD LIFT & GLOW */
+.stat-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: white;
+}
+
+.stat-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 25px -5px rgba(29, 78, 216, 0.1), 0 10px 10px -5px rgba(29, 78, 216, 0.04);
+    border-color: rgba(29, 78, 216, 0.2);
+}
+
+/* 3. PULSE ANIMATION FOR LIVE STATUS */
+.status-pulse {
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    position: relative;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.status-pulse::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    border-radius: inherit;
+    animation: status-ripple 1.5s ease-out infinite;
+}
+
+@keyframes status-ripple {
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(3); opacity: 0; }
+}
+
+/* 4. RESPONSIVE SIDEBAR */
+@media (max-width: 1024px) {
+    .sidebar-hidden { transform: translateX(-100%); }
+}
+
+/* 5. SMOOTH PAGE FADE */
+.fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 6. DARK MODE (STILL INCLUDED) */
+html.dark body { background-color: #0B1120 !important; color: #f1f5f9 !important; }
+html.dark .bg-white, html.dark header { background-color: #0f172a !important; border-color: #1e293b !important; }
+html.dark h1, html.dark h2, html.dark p, html.dark span { color: #f1f5f9 !important; }
