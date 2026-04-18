@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory | VerifyRx</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { brand: { dark: '#0B1120', blue: '#1D4ED8' } } } } }
+    </script>
+    <link rel="stylesheet" href="/CSS/Style.css">
+</head>
+<body class="bg-slate-50 text-slate-900 flex h-screen overflow-hidden">
+
+    <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 w-64 bg-brand-dark text-slate-300 flex flex-col justify-between z-50 transition-transform duration-300 sidebar-hidden lg:translate-x-0 shrink-0">
+        <div>
+            <div class="h-20 flex items-center px-8 border-b border-slate-800 bg-black/20">
+                <img src="Images/QR logo.png" alt="Logo" class="h-6 w-auto mr-3">
+                <span class="text-white font-bold text-lg">VerifyRx</span>
+            </div>
+            <nav class="p-4 space-y-2 mt-4">
+                <a href="dashboard.html" class="flex items-center px-4 py-3 hover:bg-slate-800 rounded-xl transition">📊 Overview</a>
+                <a href="batches.html" class="flex items-center px-4 py-3 bg-blue-600 text-white rounded-xl font-semibold shadow-lg shadow-blue-600/20">📦 Batches</a>
+                <a href="analytics.html" class="flex items-center px-4 py-3 hover:bg-slate-800 rounded-xl transition">📍 Activity</a>
+                <a href="alerts.html" class="flex items-center px-4 py-3 hover:bg-slate-800 rounded-xl transition">⚠️ Alerts</a>
+                <a href="settings.html" class="flex items-center px-4 py-3 hover:bg-slate-800 rounded-xl transition border-t border-slate-800 mt-4 pt-4">👤 Profile & KYC</a>
+            </nav>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-screen overflow-y-auto">
+        <header class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-6 lg:px-10 sticky top-0 z-30 shrink-0">
+            <h1 class="text-lg font-bold">Inventory Management</h1>
+            <div class="relative hidden sm:block">
+                <input type="text" id="batchSearch" onkeyup="filterBatches()" placeholder="Search drugs..." class="pl-10 pr-4 py-2 bg-slate-100 rounded-lg text-sm w-64">
+                <span class="absolute left-3 top-2.5 opacity-30">🔍</span>
+            </div>
+            <button onclick="toggleProfileMenu()" class="w-10 h-10 bg-blue-600 rounded-full text-white font-bold user-initials-display">--</button>
+        </header>
+
+        <div class="p-6 lg:p-10 fade-in">
+            <div class="flex justify-between items-end mb-10">
+                <div>
+                    <h2 class="text-3xl font-black">Drug Batches</h2>
+                    <p class="text-slate-500 text-sm italic">Verification data for all your active products.</p>
+                </div>
+                <button onclick="exportBatchData()" class="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold text-sm flex items-center gap-2">📥 Export PINs</button>
+            </div>
+
+            <div class="bg-white rounded-[2.5rem] border border-slate-200 overflow-hidden shadow-sm">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="bg-slate-50/50 border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                <th class="p-6">Drug Name</th>
+                                <th class="p-6">Batch ID</th>
+                                <th class="p-6">Quantity</th>
+                                <th class="p-6">Date</th>
+                                <th class="p-6 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="batches-table-body" class="divide-y divide-slate-50 text-sm">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="manageModal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[100] flex items-center justify-center p-4">
+        <div class="bg-white rounded-[2.5rem] w-full max-w-lg overflow-hidden shadow-2xl">
+            <div class="p-8 border-b border-slate-100 flex justify-between items-center">
+                <div>
+                    <h2 id="modalDrugName" class="text-2xl font-black">...</h2>
+                    <p id="modalBatchID" class="text-blue-600 font-mono text-xs font-bold uppercase mt-1"></p>
+                </div>
+                <button onclick="document.getElementById('manageModal').classList.add('hidden')" class="text-slate-400 text-2xl">&times;</button>
+            </div>
+            <div class="p-8 space-y-6">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-slate-50 p-6 rounded-2xl">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase">Production Count</p>
+                        <p id="modalQty" class="text-2xl font-black"></p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-2xl">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase">Verification Status</p>
+                        <p class="text-2xl font-black text-green-600">LIVE</p>
+                    </div>
+                </div>
+                <div class="bg-blue-50/50 p-6 rounded-3xl border border-blue-100 flex flex-col items-center">
+                    <div id="modalQrContainer"></div>
+                    <code id="modalSamplePin" class="mt-4 font-mono font-bold text-blue-700 tracking-widest"></code>
+                </div>
+            </div>
+            <div class="p-8 bg-slate-50 flex gap-4">
+                <button class="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-bold shadow-lg shadow-black/20">Download List</button>
+                <button onclick="alert('Batch Deactivated!')" class="flex-1 py-4 bg-red-50 text-red-600 rounded-2xl font-bold border border-red-100">Recall Batch</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="/JS/main.js"></script>
+    <script>
+        function filterBatches() {
+            let val = document.getElementById('batchSearch').value.toLowerCase();
+            document.querySelectorAll('#batches-table-body tr').forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(val) ? "" : "none";
+            });
+        }
+        function exportBatchData() {
+            const batches = JSON.parse(localStorage.getItem('verifyRx_batches')) || [];
+            let content = "VERIFYRX DATA EXPORT\n\n";
+            batches.forEach(b => content += `${b.drugName} [${b.batchNo}] - PIN: ${b.pins[0]}\n`);
+            const blob = new Blob([content], { type: "text/plain" });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "VerifyRx_Pins.txt";
+            a.click();
+        }
+    </script>
+</body>
+</html>

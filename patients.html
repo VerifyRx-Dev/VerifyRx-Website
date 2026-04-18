@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Medicine | VerifyRx</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/CSS/Style.css">
+    <style>
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+        .scan-line { animation: scan 2s linear infinite; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200 min-h-screen flex flex-col items-center p-6">
+
+    <nav class="w-full max-w-md flex justify-between items-center mb-10">
+        <div class="flex items-center gap-2">
+            <img src="Images/QR logo.png" class="h-6" alt="Logo">
+            <span class="font-bold text-slate-900">VerifyRx</span>
+        </div>
+        <a href="index.html" class="text-xs font-bold text-blue-600">EXIT</a>
+    </nav>
+
+    <div class="w-full max-w-md bg-white/80 backdrop-blur-xl rounded-[3rem] p-8 shadow-2xl border border-white">
+        <h1 class="text-2xl font-black text-center mb-2">Scan Packaging</h1>
+        <p class="text-center text-slate-500 text-sm mb-8">Align the QR code within the frame to verify authenticity.</p>
+
+        <div class="relative aspect-square bg-black rounded-[2rem] overflow-hidden mb-8 border-4 border-slate-900 shadow-inner">
+            <div class="absolute inset-10 border-2 border-blue-500/30 rounded-xl"></div>
+            <div class="absolute inset-y-10 left-10 right-10 border-l-2 border-r-2 border-blue-500 rounded-xl"></div>
+            <div class="absolute inset-x-10 top-10 bottom-10 border-t-2 border-b-2 border-blue-500 rounded-xl"></div>
+            
+            <div id="scanLine" class="scan-line absolute left-10 right-10 h-1 bg-blue-500 shadow-[0_0_15px_#3b82f6] z-10 hidden"></div>
+            
+            <div id="cameraPlaceholder" class="absolute inset-0 flex items-center justify-center text-slate-700 text-[10px] font-bold tracking-widest uppercase">
+                Camera Ready
+            </div>
+        </div>
+
+        <button onclick="startScanning()" id="actionBtn" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-xl shadow-blue-600/30 active:scale-95 transition">
+            Start Scanner
+        </button>
+
+        <div class="mt-8 pt-8 border-t border-slate-100 text-center">
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Secure Verification Powered by SHA-256</p>
+        </div>
+    </div>
+
+    <div id="resultOverlay" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[100] hidden flex items-center justify-center p-6">
+        <div id="resultCard" class="bg-white rounded-[3rem] p-10 w-full max-w-sm text-center transform scale-90 transition-transform duration-300">
+            <div id="resultIcon" class="w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center text-4xl"></div>
+            <h2 id="resultTitle" class="text-2xl font-black mb-2"></h2>
+            <p id="resultText" class="text-slate-500 text-sm mb-8"></p>
+            <button onclick="closeResult()" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold">Done</button>
+        </div>
+    </div>
+
+    <script>
+        function startScanning() {
+            const btn = document.getElementById('actionBtn');
+            const line = document.getElementById('scanLine');
+            
+            btn.disabled = true;
+            btn.innerText = "Analyzing...";
+            line.classList.remove('hidden');
+
+            // Simulate Network Delay
+            setTimeout(() => {
+                showResult(true); // Change to 'false' to test the "Fake" UI
+                btn.disabled = false;
+                btn.innerText = "Start Scanner";
+                line.classList.add('hidden');
+            }, 3000);
+        }
+
+        function showResult(isGenuine) {
+            const overlay = document.getElementById('resultOverlay');
+            const card = document.getElementById('resultCard');
+            const icon = document.getElementById('resultIcon');
+            const title = document.getElementById('resultTitle');
+            const text = document.getElementById('resultText');
+
+            overlay.classList.remove('hidden');
+            setTimeout(() => card.classList.remove('scale-90'), 10);
+
+            if (isGenuine) {
+                icon.innerHTML = "✅";
+                icon.className = "w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center text-4xl bg-green-100 text-green-600";
+                title.innerText = "Genuine Product";
+                title.className = "text-2xl font-black mb-2 text-green-600";
+                text.innerText = "This medication has been verified as authentic and safe for use. Batch BT-2026-04A.";
+            } else {
+                icon.innerHTML = "❌";
+                icon.className = "w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center text-4xl bg-red-100 text-red-600";
+                title.innerText = "Warning: Fake";
+                title.className = "text-2xl font-black mb-2 text-red-600";
+                text.innerText = "This code is not recognized in our secure database. Do not consume this product and report it immediately.";
+            }
+        }
+
+        function closeResult() {
+            document.getElementById('resultOverlay').classList.add('hidden');
+            document.getElementById('resultCard').classList.add('scale-90');
+        }
+    </script>
+</body>
+</html>

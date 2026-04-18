@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | VerifyRx</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { 
+            theme: { 
+                extend: { 
+                    colors: { brand: { dark: '#0B1120', blue: '#1D4ED8' } } 
+                } 
+            } 
+        }
+    </script>
+    <link rel="stylesheet" href="/CSS/Style.css">
+</head>
+<body class="bg-slate-50 text-slate-900 flex min-h-screen overflow-hidden">
+
+    <div id="sidebarOverlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"></div>
+
+    <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 w-64 bg-brand-dark text-slate-300 flex flex-col justify-between z-50 transition-transform duration-300 sidebar-hidden lg:translate-x-0 shrink-0">
+        <div>
+            <div class="h-20 flex items-center px-8 border-b border-slate-800 bg-black/20">
+                <img src="Images/QR logo.png" alt="Logo" class="h-6 w-auto mr-3">
+                <span class="text-white font-bold tracking-wide text-lg">VerifyRx</span>
+            </div>
+            <nav class="p-4 space-y-2 mt-4">
+                <a href="dashboard.html" class="flex items-center px-4 py-3 bg-blue-600 text-white rounded-xl font-semibold shadow-lg shadow-blue-600/20">
+                    <span class="mr-3">📊</span> Overview
+                </a>
+                <a href="batches.html" class="flex items-center px-4 py-3 hover:bg-slate-800 hover:text-white rounded-xl transition-all">
+                    <span class="mr-3">📦</span> Batches
+                </a>
+                <a href="analytics.html" class="flex items-center px-4 py-3 hover:bg-slate-800 hover:text-white rounded-xl transition-all">
+                    <span class="mr-3">📍</span> Activity
+                </a>
+                <a href="alerts.html" class="flex items-center px-4 py-3 hover:bg-slate-800 hover:text-white rounded-xl transition-all">
+                    <span class="mr-3">⚠️</span> Alerts
+                </a>
+                <a href="settings.html" class="flex items-center px-4 py-3 hover:bg-slate-800 hover:text-white rounded-xl transition-all border-t border-slate-800 mt-4 pt-4">
+                    <span class="mr-3">👤</span> Profile & KYC
+                </a>
+            </nav>
+        </div>
+        <div class="p-6 border-t border-slate-800">
+            <button onclick="signOut()" class="w-full flex items-center px-4 py-3 text-red-400 hover:bg-red-400/10 rounded-xl transition-colors font-bold text-sm">
+                <span class="mr-3">🚪</span> Sign Out
+            </button>
+        </div>
+    </aside>
+
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 px-6 py-3 flex justify-between items-center z-[60] shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+        <a href="dashboard.html" class="flex flex-col items-center text-blue-600">
+            <span class="text-xl">📊</span>
+            <span class="text-[10px] font-bold mt-1 uppercase">Home</span>
+        </a>
+        <a href="batches.html" class="flex flex-col items-center text-slate-400">
+            <span class="text-xl">📦</span>
+            <span class="text-[10px] font-bold mt-1 uppercase">Batches</span>
+        </a>
+        <button onclick="document.getElementById('batchModal').classList.remove('hidden')" class="bg-blue-600 w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-500/40 -translate-y-6 border-4 border-slate-50">
+            <span class="text-2xl font-bold">+</span>
+        </button>
+        <a href="analytics.html" class="flex flex-col items-center text-slate-400">
+            <span class="text-xl">📍</span>
+            <span class="text-[10px] font-bold mt-1 uppercase">Maps</span>
+        </a>
+        <a href="settings.html" class="flex flex-col items-center text-slate-400">
+            <span class="text-xl">👤</span>
+            <span class="text-[10px] font-bold mt-1 uppercase">Profile</span>
+        </a>
+    </nav>
+
+    <main class="flex-1 flex flex-col h-screen overflow-y-auto pb-24 lg:pb-0">
+        <header class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-6 lg:px-10 sticky top-0 z-30 shrink-0">
+            <div class="flex items-center gap-4">
+                <button onclick="toggleMobileMenu()" class="lg:hidden p-2 hover:bg-slate-100 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+                <h1 class="text-lg font-bold">Manufacturer Portal</h1>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div id="verificationStatus" class="hidden sm:flex items-center gap-2 bg-yellow-50 text-yellow-700 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border border-yellow-100">
+                    ⚠️ Pending Audit
+                </div>
+                <div class="text-right hidden md:block">
+                    <p class="text-sm font-bold text-slate-900 user-name-display">...</p>
+                    <div class="flex items-center justify-end">
+                        <span class="status-pulse"></span>
+                        <p class="text-[9px] text-green-600 font-bold uppercase">Live Security</p>
+                    </div>
+                </div>
+                <button onclick="toggleProfileMenu()" class="w-10 h-10 bg-blue-600 rounded-full text-white font-bold user-initials-display ring-4 ring-blue-50">--</button>
+            </div>
+        </header>
+
+        <div class="p-6 lg:p-10 fade-in">
+            <div class="mb-10">
+                <h2 class="text-3xl font-black mb-1">Welcome, <span class="user-name-display text-blue-600">...</span></h2>
+                <p class="text-slate-500 text-sm">Anti-Counterfeit Supply Chain Management</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                <div class="bg-white p-6 rounded-[2rem] border border-slate-200 stat-card">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total Issued</p>
+                    <p id="total-codes-counter" class="text-3xl font-black mt-2">48,200</p>
+                </div>
+                <div class="bg-white p-6 rounded-[2rem] border border-slate-200 stat-card group">
+                    <p class="text-[10px] font-bold text-green-500 uppercase tracking-widest">Verified Safe</p>
+                    <p class="text-3xl font-black mt-2">31,847</p>
+                </div>
+                <div class="bg-white p-6 rounded-[2rem] border border-slate-200 stat-card group">
+                    <p class="text-[10px] font-bold text-yellow-500 uppercase tracking-widest">Flagged</p>
+                    <p class="text-3xl font-black mt-2">23</p>
+                </div>
+                <div class="bg-white p-6 rounded-[2rem] border border-slate-200 stat-card group">
+                    <p class="text-[10px] font-bold text-red-500 uppercase tracking-widest">Counterfeit</p>
+                    <p class="text-3xl font-black mt-2">512</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 bg-white rounded-[2.5rem] border border-slate-200 p-8 shadow-sm">
+                    <div class="flex justify-between items-center mb-8">
+                        <h3 class="text-xl font-bold">Recent Batches</h3>
+                        <button onclick="document.getElementById('batchModal').classList.remove('hidden')" class="hidden sm:block bg-slate-900 text-white px-5 py-2.5 rounded-xl font-bold text-xs hover:bg-blue-600 transition">+ New Batch</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="text-[10px] font-bold text-slate-400 uppercase border-b border-slate-100">
+                                    <th class="pb-4">Product</th>
+                                    <th class="pb-4 text-center">Qty</th>
+                                    <th class="pb-4 text-right">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashboard-table-body">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-[2.5rem] border border-slate-200 p-8 shadow-sm">
+                    <h3 class="text-xl font-bold mb-6">Threat Feed</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-center justify-between p-3 rounded-2xl hover:bg-slate-50 transition">
+                            <div class="flex gap-3 items-center">
+                                <span class="status-pulse"></span>
+                                <div><p class="text-xs font-bold text-slate-800 uppercase">Lekki, Lagos</p><p class="text-[10px] text-slate-400">Verified Product</p></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 rounded-2xl bg-red-50 border border-red-100">
+                            <div class="flex gap-3 items-center">
+                                <div class="w-2 h-2 rounded-full bg-red-500 animate-ping"></div>
+                                <div><p class="text-xs font-bold text-red-700 uppercase">Mushin, Lagos</p><p class="text-[10px] text-red-500">Fake QR Scan</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="batchModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-[2.5rem] w-full max-w-lg shadow-2xl scale-in">
+            <h2 class="text-2xl font-black mb-6">Create New Batch</h2>
+            <div class="space-y-4">
+                <input type="text" placeholder="Product Name" class="w-full px-5 py-4 border border-slate-100 bg-slate-50 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 transition-all">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="Batch ID" class="w-full px-5 py-4 border border-slate-100 bg-slate-50 rounded-2xl outline-none">
+                    <input type="number" placeholder="Quantity" class="w-full px-5 py-4 border border-slate-100 bg-slate-50 rounded-2xl outline-none">
+                </div>
+            </div>
+            <div class="mt-8 flex gap-4">
+                <button onclick="document.getElementById('batchModal').classList.add('hidden')" class="flex-1 py-4 font-bold text-slate-400">Cancel</button>
+                <button class="flex-1 bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-xl shadow-blue-600/30">Generate</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="successModal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[110] flex items-center justify-center p-4">
+        <div class="bg-white rounded-[3rem] p-10 w-full max-w-sm text-center shadow-2xl">
+            <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-6">✓</div>
+            <h2 class="text-2xl font-black mb-2">Success!</h2>
+            <p class="text-slate-500 text-sm mb-8">Your batch codes have been generated and ready for print.</p>
+            <div class="bg-slate-50 p-8 rounded-3xl mb-8 border-2 border-dashed border-slate-200">
+                <div id="qrContainer" class="mx-auto flex justify-center"></div>
+                <p id="samplePinDisplay" class="mt-4 font-mono text-xs font-bold text-blue-600 uppercase tracking-widest"></p>
+            </div>
+            <button onclick="window.location.reload()" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold shadow-lg">Back to Dashboard</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="/JS/main.js"></script>
+</body>
+</html>

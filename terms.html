@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service | VerifyRx</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] } } } }</script>
+</head>
+<body class="font-sans text-slate-900 antialiased min-h-screen flex flex-col bg-gradient-to-br from-slate-100 via-blue-50 to-slate-300 relative">
+
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiNlN2U1ZTQiIGZpbGwtb3BhY2l0eT0iMC40Ii8+PC9zdmc+')] opacity-50 pointer-events-none"></div>
+
+    <nav class="bg-white/70 backdrop-blur-md border-b border-white/50 py-4 px-8 flex justify-between items-center sticky top-0 z-50">
+        <a href="index.html" class="flex items-center gap-3">
+            <img src="Images/QR logo.png" alt="VerifyRx Logo" class="h-8 w-auto object-contain">
+            <span class="text-xl font-bold tracking-tight text-slate-900">Verify Rx</span>
+        </a>
+        <a href="index.html" class="text-sm font-semibold text-blue-600 hover:text-blue-800 transition">&larr; Back to Home</a>
+    </nav>
+
+    <main class="flex-1 container mx-auto max-w-4xl px-6 py-20 relative z-10">
+        <div class="bg-white/80 backdrop-blur-xl rounded-[2.5rem] p-10 md:p-16 shadow-2xl border border-white">
+            <div class="text-center mb-16">
+                <p class="text-blue-600 text-xs font-bold tracking-widest uppercase mb-4">Legal Documentation</p>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">Terms of Service</h1>
+                <p class="text-sm text-slate-500 bg-slate-100 inline-block px-4 py-2 rounded-full font-medium">Effective Date: April 2026</p>
+            </div>
+
+            <div class="space-y-10 text-slate-600 leading-relaxed text-lg">
+                <section>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3"><span class="text-blue-500">01.</span> Acceptance of Terms</h2>
+                    <p>By accessing or utilizing the VerifyRx platform—whether via the consumer scanning portal or the enterprise manufacturer dashboard—you agree to be legally bound by these Terms of Service.</p>
+                </section>
+                
+                <section>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-3"><span class="text-blue-500">02.</span> Enterprise Manufacturer Responsibilities</h2>
+                    <p class="mb-4">Pharmaceutical companies registered on our platform carry the following strict obligations:</p>
+                    <ul class="list-disc pl-6 space-y-2 text-slate-500">
+                        <li>You must ensure all generated cryptographic QR codes are securely applied <strong>only</strong> to authentic, government-approved medications.</li>
+                        <li>VerifyRx reserves the right to immediately suspend accounts if evidence of code leakage or internal fraud is detected.</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

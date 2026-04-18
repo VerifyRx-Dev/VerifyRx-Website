@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics | VerifyRx</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { theme: { extend: { colors: { brand: { dark: '#0B1120', blue: '#1D4ED8' } } } } }</script>
+    <link rel="stylesheet" href="/CSS/Style.css">
+</head>
+<body class="bg-slate-50 text-slate-900 flex min-h-screen overflow-hidden">
+    <div id="sidebarOverlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"></div>
+    <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 w-64 bg-brand-dark text-slate-300 flex flex-col justify-between z-50 transition-transform duration-300 sidebar-hidden lg:translate-x-0 shrink-0">
+        <div>
+            <div class="h-20 flex items-center px-8 border-b border-slate-800 bg-black/20">
+                <img src="Images/QR logo.png" alt="Logo" class="h-6 w-auto mr-3">
+                <span class="text-white font-bold tracking-wide">VerifyRx</span>
+            </div>
+            <nav class="p-4 space-y-2 mt-4">
+                <a href="dashboard.html" class="flex items-center px-4 py-3 hover:bg-slate-800 rounded-xl transition">📊 Overview</a>
+                <a href="batches.html" class="flex items-center px-4 py-3 hover:bg-slate-800 rounded-xl transition">📦 Batches</a>
+                <a href="analytics.html" class="flex items-center px-4 py-3 bg-blue-600 text-white rounded-xl font-semibold shadow-lg shadow-blue-600/20">📍 Activity</a>
+                <a href="alerts.html" class="flex items-center px-4 py-3 hover:bg-slate-800 rounded-xl transition">⚠️ Alerts</a>
+                <a href="settings.html" class="flex items-center px-4 py-3 hover:bg-slate-800 rounded-xl transition border-t border-slate-800 mt-4 pt-4">
+                    <span class="mr-3">👤</span> Account Security
+                </a>
+            </nav>
+        </div>
+    </aside>
+    <main class="flex-1 flex flex-col h-screen overflow-y-auto">
+        <header class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-6 lg:px-10 sticky top-0 z-30 shrink-0">
+            <div class="flex items-center gap-4">
+                <button onclick="toggleMobileMenu()" class="lg:hidden p-2 hover:bg-slate-100 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+                <h1 class="text-lg font-bold">Data Analytics</h1>
+            </div>
+            <button onclick="toggleProfileMenu()" class="w-10 h-10 bg-blue-600 rounded-full text-white font-bold user-initials-display ring-4 ring-blue-50">--</button>
+        </header>
+        <div class="p-6 lg:p-10 fade-in">
+            <div class="bg-white p-12 rounded-[3rem] border border-slate-200 text-center flex flex-col items-center justify-center">
+                <div class="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center text-3xl mb-6">📍</div>
+                <h3 class="text-3xl font-black mb-2">Lagos, Nigeria</h3>
+                <p class="text-slate-500 max-w-sm">92% of scans originating from Lagos state are currently verified as genuine.</p>
+            </div>
+        </div>
+    </main>
+    <script src="/JS/main.js"></script>
+</body>
+</html>

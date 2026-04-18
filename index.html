@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerifyRx - Drug Authentication</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            dark: '#0B1120',
+                            blue: '#1D4ED8',
+                            light: '#EFF6FF'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="/CSS/Style.css">
+</head>
+<body class="font-sans text-slate-900 bg-white antialiased">
+
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-[999] bg-white border-b border-transparent py-4 px-8 flex justify-between items-center transition-all duration-300">
+        <div class="flex items-center gap-3">
+            <img src="Images/QR logo.png" alt="VerifyRx Logo" class="h-8 w-auto object-contain">
+            <span class="text-xl font-bold tracking-tight text-slate-900">Verify Rx</span>
+        </div>
+
+        <div class="hidden lg:flex gap-8 text-sm font-medium text-slate-500">
+            <a href="#how-it-works" class="hover:text-slate-900 transition-colors">How it works</a>
+            <a href="#features" class="hover:text-slate-900 transition-colors">Features</a>
+            <a href="patients.html" class="hover:text-slate-900 transition-colors">For patients</a>
+        </div>
+
+        <div class="flex gap-4 items-center">
+            <a href="login.html" class="text-blue-600 font-semibold text-sm hover:text-blue-800 transition-colors">Company login</a>
+            <a href="register.html" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/30">Get started &rarr;</a>
+        </div>
+    </nav>
+
+    <section class="relative pt-32 pb-20 bg-[#0B1120] text-white overflow-hidden">
+        <div class="absolute inset-0 bg-grid-pattern"></div>
+        
+        <div class="container mx-auto max-w-6xl px-6 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+            
+            <div class="reveal-element">
+                <div class="inline-block border border-blue-500/30 bg-blue-500/10 text-blue-400 text-xs font-semibold px-4 py-1.5 rounded-full mb-8">
+                    <span class="inline-block w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></span>
+                    Live drug authentication platform
+                </div>
+                
+                <h1 class="text-6xl md:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
+                    Is your medicine <br><span class="text-[#00D4FF]">real or fake?</span>
+                </h1>
+                
+                <p class="text-slate-400 text-lg mb-10 max-w-lg leading-relaxed">
+                    VerifyRx uses cryptographically signed QR codes to instantly verify the authenticity of any drug — protecting patients across Nigeria and Africa from counterfeit medicines.
+                </p>
+                
+                <div class="flex flex-wrap gap-4 mb-16">
+                    <a href="register.html" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-500 transition">Register your company &rarr;</a>
+                    <a href="#how-it-works" class="bg-white text-slate-900 px-8 py-4 rounded-xl font-bold hover:bg-slate-100 transition">See how it works</a>
+                </div>
+
+                <div class="grid grid-cols-3 gap-8 border-t border-slate-800 pt-8 max-w-md">
+                    <div><p class="text-3xl font-bold">1M+</p><p class="text-xs text-slate-500 mt-1">Deaths from fake drugs yearly</p></div>
+                    <div><p class="text-3xl font-bold">&lt;1s</p><p class="text-xs text-slate-500 mt-1">Verification time</p></div>
+                    <div><p class="text-3xl font-bold">100%</p><p class="text-xs text-slate-500 mt-1">One-time scan guarantee</p></div>
+                </div>
+            </div>
+
+            <div class="flex justify-center lg:justify-end reveal-element delay-100">
+                <div class="w-[300px] h-[600px] bg-[#111827] rounded-[2.5rem] phone-mockup relative overflow-hidden flex flex-col">
+                    <div class="bg-blue-600 text-center py-4 text-xs font-bold tracking-widest mt-6">VERIFYRX SCANNER</div>
+                    
+                    <div class="flex-1 relative flex items-center justify-center">
+                        <div class="w-48 h-48 border-2 border-transparent relative">
+                            <div class="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-[#00D4FF]"></div>
+                            <div class="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-[#00D4FF]"></div>
+                            <div class="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-[#00D4FF]"></div>
+                            <div class="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-[#00D4FF]"></div>
+                            <div class="absolute top-1/2 left-0 w-full h-0.5 bg-[#00D4FF] shadow-[0_0_10px_#00D4FF]"></div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white m-4 rounded-2xl p-4 flex gap-3">
+                        <div class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold shrink-0">✓</div>
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Genuine —</p>
+                            <p class="font-bold text-slate-900 text-sm">Paracetamol 500mg</p>
+                            <p class="text-xs text-slate-400 mt-1">Emzor Pharmaceuticals<br>Expires 12/2026</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="bg-white border-b border-slate-100 py-4 text-center">
+        <div class="flex justify-center items-center gap-6 text-xs font-bold text-slate-400 uppercase tracking-widest flex-wrap px-4">
+            <span class="text-blue-500">Designed for</span>
+            <span>NAFDAC Aligned</span>
+            <span>Nigerian Pharmacies</span>
+            <span>Hospitals & Clinics</span>
+            <span>Drug Manufacturers</span>
+            <span>Distributors</span>
+        </div>
+    </div>
+
+    <section id="how-it-works" class="py-32 bg-white px-6">
+        <div class="container mx-auto max-w-5xl text-center">
+            <p class="text-blue-600 text-xs font-bold tracking-widest uppercase mb-4">How it works</p>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">Three steps between a patient <br>and a verified medicine</h2>
+            <p class="text-slate-500 max-w-2xl mx-auto mb-20 text-lg">Our end-to-end system connects manufacturers, pharmacists, and patients in one seamless verification chain.</p>
+
+            <div class="grid md:grid-cols-3 gap-8 text-left border-t border-slate-100 pt-16">
+                <div class="reveal-element border-r border-slate-100 pr-8">
+                    <p class="text-7xl font-black text-slate-100 mb-6 tracking-tighter">01</p>
+                    <div class="text-2xl mb-4">🏭</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Manufacturer registers</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">A pharmaceutical company joins VerifyRx and generates a batch of cryptographically signed QR codes — one unique code per drug pack.</p>
+                </div>
+                <div class="reveal-element delay-100 border-r border-slate-100 pr-8">
+                    <p class="text-7xl font-black text-slate-100 mb-6 tracking-tighter">02</p>
+                    <div class="text-2xl mb-4">📦</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Codes applied to packs</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Each QR code is printed on the packaging at the factory. The code is signed with HMAC-SHA256, making it impossible to forge or duplicate.</p>
+                </div>
+                <div class="reveal-element delay-200 pr-8">
+                    <p class="text-7xl font-black text-slate-100 mb-6 tracking-tighter">03</p>
+                    <div class="text-2xl mb-4">📱</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Patient scans & verifies</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Anyone with a smartphone scans the QR code. The result is instant — genuine drug with product details, or a counterfeit warning. Each code works only once.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-24 bg-[#F8FAFC] px-6">
+        <div class="container mx-auto max-w-6xl grid lg:grid-cols-2 gap-16 items-center">
+            
+            <div class="reveal-element">
+                <p class="text-blue-600 text-xs font-bold tracking-widest uppercase mb-4">Why VerifyRx</p>
+                <h2 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">Built to stop counterfeits at every level</h2>
+                <p class="text-slate-500 mb-12 text-lg">Every feature is designed with one goal: making it impossible for a fake drug to reach a patient undetected.</p>
+
+                <div class="space-y-8">
+                    <div class="flex gap-4">
+                        <div class="mt-1">🔒</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900">One-time scan lock</h4>
+                            <p class="text-sm text-slate-500 mt-1">Each QR code is invalidated the moment it is scanned. If someone tries to scan a copied code, the system immediately flags it as a duplicate.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="mt-1">📡</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900">Offline partial verification</h4>
+                            <p class="text-sm text-slate-500 mt-1">The HMAC signature embedded in every code allows basic authenticity checks even without internet — critical for rural areas.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="mt-1">📍</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900">Geo-fraud intelligence</h4>
+                            <p class="text-sm text-slate-500 mt-1">Every scan is logged with GPS coordinates. Our system clusters suspicious scan patterns graphically and alerts manufacturers automatically.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="mt-1">⚡</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900">Under one second</h4>
+                            <p class="text-sm text-slate-500 mt-1">From scan to result in under 1 second. Powered by a globally distributed infrastructure that scales to millions of verifications.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-[#0B1120] rounded-[2rem] p-6 reveal-element delay-100 border border-slate-800 shadow-2xl">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-[#111827] p-8 rounded-2xl border border-slate-800">
+                        <p class="text-5xl font-black text-[#00D4FF] mb-2">0</p>
+                        <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Duplicate scans allowed</p>
+                    </div>
+                    <div class="bg-[#111827] p-8 rounded-2xl border border-slate-800">
+                        <p class="text-3xl font-black text-white mb-4">SHA256</p>
+                        <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Cryptographic signing</p>
+                    </div>
+                    <div class="bg-[#111827] p-8 rounded-2xl border border-slate-800">
+                        <p class="text-3xl font-black text-white mb-4 leading-tight">iOS & <br>Android</p>
+                        <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Cross-platform app</p>
+                    </div>
+                    <div class="bg-[#111827] p-8 rounded-2xl border border-slate-800">
+                        <p class="text-4xl font-black text-[#00D4FF] mb-3">&lt;1s</p>
+                        <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Verification speed</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="py-24 bg-blue-600 text-white px-6">
+        <div class="container mx-auto max-w-6xl grid lg:grid-cols-2 gap-16 items-center">
+            <div class="reveal-element">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">Three possible outcomes. Zero ambiguity.</h2>
+                <p class="text-blue-100 mb-8 text-lg">Every scan returns one of three clear results so patients and pharmacists always know exactly what they are looking at.</p>
+                <a href="register.html" class="inline-block bg-white text-blue-600 font-bold px-8 py-3.5 rounded-xl hover:bg-slate-100 transition">Register your company &rarr;</a>
+            </div>
+
+            <div class="space-y-4 reveal-element delay-100">
+                <div class="bg-blue-500/30 border border-blue-400/30 p-5 rounded-2xl flex gap-4 items-center">
+                    <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center font-bold">✓</div>
+                    <div>
+                        <h4 class="font-bold text-lg">Genuine</h4>
+                        <p class="text-sm text-blue-100">Code is valid, first scan, product details confirmed</p>
+                    </div>
+                </div>
+                <div class="bg-blue-500/30 border border-blue-400/30 p-5 rounded-2xl flex gap-4 items-center">
+                    <div class="w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center font-bold text-slate-900">!</div>
+                    <div>
+                        <h4 class="font-bold text-lg">Already scanned</h4>
+                        <p class="text-sm text-blue-100">Code was used before — possible counterfeit copy</p>
+                    </div>
+                </div>
+                <div class="bg-blue-500/30 border border-blue-400/30 p-5 rounded-2xl flex gap-4 items-center">
+                    <div class="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center font-bold">✕</div>
+                    <div>
+                        <h4 class="font-bold text-lg">Counterfeit detected</h4>
+                        <p class="text-sm text-blue-100">Code not in database — do not consume this product</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 bg-[#0B1120] text-center px-6 border-b border-slate-800">
+        <div class="container mx-auto max-w-3xl reveal-element">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6">Ready to protect your patients and your brand?</h2>
+            <p class="text-slate-400 mb-10 text-lg">Join VerifyRx and start issuing authenticated QR codes for your drug products today.</p>
+            <div class="flex justify-center gap-4">
+                <a href="register.html" class="bg-blue-600 text-white font-bold px-8 py-4 rounded-xl hover:bg-blue-500 transition">Register your company &rarr;</a>
+                <a href="mailto:support@verifyrx.com" class="border border-slate-700 text-white font-bold px-8 py-4 rounded-xl hover:bg-slate-800 transition">Contact our team</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[#0B1120] text-white py-8 px-8">
+        <div class="container mx-auto max-w-6xl flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2">
+                <img src="Images/QR logo.png" alt="VerifyRx Logo" class="h-6 w-auto object-contain">
+                <span class="text-lg font-bold tracking-tight">Verify Rx</span>
+            </div>
+            
+            <p class="text-slate-500 text-sm">&copy; 2026 VerifyRx. Saving lives through technology.</p>
+            
+            <div class="flex gap-6 text-sm text-slate-500 font-medium">
+                <a href="privacy.html" class="hover:text-white transition">Privacy</a>
+                <a href="terms.html" class="hover:text-white transition">Terms</a>
+                <a href="mailto:support@verifyrx.com" class="hover:text-white transition">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.getElementById('navbar');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    nav.classList.add('nav-scrolled');
+                } else {
+                    nav.classList.remove('nav-scrolled');
+                }
+            });
+        });
+    </script>
+    
+    <script type="module" src="/JS/main.js"></script>
+</body>
+</html>

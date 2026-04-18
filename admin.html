@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal | VerifyRx</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-white min-h-screen flex items-center justify-center p-6">
+    <div class="max-w-4xl w-full">
+        <div class="text-center mb-12">
+            <h1 class="text-3xl font-black text-blue-500 tracking-tighter uppercase italic">NAFDAC Compliance Console</h1>
+            <p class="text-slate-500 font-bold text-[10px] tracking-widest mt-2">SECURE ADMIN ACCESS ONLY</p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-[3rem] p-8 lg:p-12 shadow-2xl">
+            <h2 class="text-xl font-bold mb-8">Pending Verification Requests</h2>
+            <div id="admin-table-container" class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="text-[10px] font-bold text-slate-600 uppercase tracking-widest border-b border-slate-800">
+                            <th class="pb-6">Company</th>
+                            <th class="pb-6">License No.</th>
+                            <th class="pb-6 text-right">Verification</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-audit-table">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function loadRequests() {
+            const profile = JSON.parse(localStorage.getItem('verifyRx_user_profile'));
+            const table = document.getElementById('admin-audit-table');
+            
+            if (!profile || profile.isVerified) {
+                table.innerHTML = `<tr><td colspan="3" class="p-12 text-center text-slate-700 italic">No pending audits. All manufacturers verified.</td></tr>`;
+                return;
+            }
+
+            table.innerHTML = `
+                <tr class="border-b border-slate-800/50">
+                    <td class="py-8"><p class="font-bold text-white">${profile.name}</p><p class="text-[10px] text-slate-500 uppercase">${profile.addr}</p></td>
+                    <td class="py-8 font-mono text-blue-400 font-bold">${profile.license}</td>
+                    <td class="py-8 text-right">
+                        <button onclick="approve()" class="bg-green-600 text-white px-6 py-2 rounded-xl font-bold text-xs shadow-lg shadow-green-600/20">APPROVE & VERIFY</button>
+                    </td>
+                </tr>
+            `;
+        }
+
+        function approve() {
+            const profile = JSON.parse(localStorage.getItem('verifyRx_user_profile'));
+            profile.isVerified = true;
+            localStorage.setItem('verifyRx_user_profile', JSON.stringify(profile));
+            alert('HANDSHAKE COMPLETE: Digital Certificate Issued to Manufacturer.');
+            window.location.href = 'dashboard.html';
+        }
+        window.onload = loadRequests;
+    </script>
+</body>
+</html>
