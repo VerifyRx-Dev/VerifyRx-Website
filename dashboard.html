@@ -19,8 +19,33 @@
         }
     </script>
     <link rel="stylesheet" href="/CSS/Style.css">
+    <style>
+        /* SKELETON LOADING ANIMATION */
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        .skeleton-load {
+            animation: shimmer 2s infinite linear;
+            background: linear-gradient(to right, #e2e8f0 4%, #cbd5e1 25%, #e2e8f0 36%);
+            background-size: 1000px 100%;
+            color: transparent !important;
+            border-radius: 0.5rem;
+        }
+        .dark .skeleton-load {
+            background: linear-gradient(to right, #1e293b 4%, #334155 25%, #1e293b 36%);
+        }
+
+        /* LIVE TICKER ANIMATION */
+        @keyframes ticker { 
+            0% { transform: translateX(100%); } 
+            100% { transform: translateX(-100%); } 
+        }
+    </style>
 </head>
 <body class="bg-slate-50 dark:bg-brand-dark text-slate-900 dark:text-white flex min-h-screen overflow-hidden transition-colors duration-300">
+
+    <div id="toastContainer" class="fixed bottom-6 right-6 z-[9999] flex flex-col gap-3 pointer-events-none"></div>
 
     <div id="sidebarOverlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden backdrop-blur-sm transition-opacity"></div>
 
@@ -64,14 +89,6 @@
                 </a>
             </nav>
         </div>
-        <div class="p-6 border-t border-slate-800">
-            <button onclick="window.location.href='index.html'" class="w-full flex items-center px-4 py-3 text-red-400 hover:bg-red-500/10 rounded-xl transition-colors font-bold text-sm">
-                <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
-                </svg>
-                Sign Out
-            </button>
-        </div>
     </aside>
 
     <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-brand-dark border-t border-slate-200 dark:border-slate-800 px-6 py-3 flex justify-between items-center z-[60] shadow-[0_-4px_20px_rgba(0,0,0,0.05)] transition-colors">
@@ -83,7 +100,7 @@
             <svg class="w-6 h-6 mb-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" /></svg>
             <span class="text-[10px] font-bold uppercase">Batches</span>
         </a>
-        <button onclick="document.getElementById('batchModal').classList.remove('hidden')" class="bg-blue-600 w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-500/40 -translate-y-6 border-4 border-slate-50 dark:border-brand-dark transition-colors">
+        <button onclick="document.getElementById('batchModal').classList.remove('hidden')" class="relative z-[70] bg-blue-600 w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-500/40 -translate-y-6 border-4 border-slate-50 dark:border-brand-dark transition-colors">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
         </button>
         <a href="analytics.html" class="flex flex-col items-center text-slate-400 dark:text-slate-500 hover:text-blue-600 transition-colors">
@@ -102,131 +119,110 @@
                 <button onclick="toggleMobileMenu()" class="lg:hidden p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
                     <svg class="w-6 h-6 text-slate-900 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
-                <h1 class="text-lg font-bold text-slate-900 dark:text-white">Manufacturer Portal</h1>
+                <h1 class="text-lg font-bold text-slate-900 dark:text-white">Manufacturer Hub</h1>
             </div>
 
-            <div class="flex items-center gap-4">
-                <div id="verificationStatus" class="hidden sm:flex items-center gap-2 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-500 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border border-yellow-100 dark:border-yellow-800/50">
-                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                    Pending Audit
-                </div>
-                <div class="text-right hidden md:block">
-                    <p class="text-sm font-bold text-slate-900 dark:text-white user-name-display">Emzor Pharma</p>
-                    <div class="flex items-center justify-end">
-                        <span class="w-2 h-2 rounded-full bg-green-500 mr-1.5 animate-pulse"></span>
-                        <p class="text-[9px] text-green-600 dark:text-green-400 font-bold uppercase">Live Security</p>
+            <div class="relative ml-2">
+                <button onclick="toggleProfileMenu(event)" class="w-10 h-10 bg-blue-600 rounded-full text-white font-bold user-initials-display ring-4 ring-blue-50 dark:ring-slate-800 flex items-center justify-center hover:scale-105 transition-transform z-50">EP</button>
+                
+                <div id="profileDropdown" class="hidden absolute right-0 mt-3 w-56 bg-white dark:bg-[#111827] rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 py-2 z-50 transform origin-top-right transition-all">
+                    <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800">
+                        <p class="text-sm font-bold text-slate-900 dark:text-white">Emzor Pharma</p>
+                        <p class="text-xs text-slate-500">admin@emzorpharma.com</p>
+                    </div>
+                    <div class="py-1">
+                        <a href="settings.html" class="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                            <svg class="w-4 h-4 mr-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                            Profile Settings
+                        </a>
+                    </div>
+                    <div class="py-1 border-t border-slate-100 dark:border-slate-800">
+                        <button id="themeToggle" class="w-full flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                            <svg class="w-4 h-4 mr-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" /></svg>
+                            Switch Theme
+                        </button>
+                    </div>
+                    <div class="py-1 border-t border-slate-100 dark:border-slate-800">
+                        <button onclick="window.location.href='index.html'" class="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors font-semibold">
+                            <svg class="w-4 h-4 mr-3 text-red-500" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" /></svg>
+                            Sign Out
+                        </button>
                     </div>
                 </div>
-
-                <div class="relative ml-2">
-                    <button onclick="toggleProfileMenu(event)" class="w-10 h-10 bg-blue-600 rounded-full text-white font-bold user-initials-display ring-4 ring-blue-50 dark:ring-slate-800 flex items-center justify-center hover:scale-105 transition-transform z-50">EP</button>
-                    
-                    <div id="profileDropdown" class="hidden absolute right-0 mt-3 w-56 bg-white dark:bg-[#111827] rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-black/50 border border-slate-100 dark:border-slate-800 py-2 z-50 transform origin-top-right transition-all">
-                        <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800">
-                            <p class="text-sm font-bold text-slate-900 dark:text-white">Emzor Pharma</p>
-                            <p class="text-xs text-slate-500">admin@emzorpharma.com</p>
-                        </div>
-                        
-                        <div class="py-1">
-                            <a href="settings.html" class="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                                <svg class="w-4 h-4 mr-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
-                                Profile Settings
-                            </a>
-                        </div>
-                        
-                        <div class="py-1 border-t border-slate-100 dark:border-slate-800">
-                            <button id="themeToggle" class="w-full flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                                <svg class="w-4 h-4 mr-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" /></svg>
-                                Switch Theme
-                            </button>
-                        </div>
-                        
-                        <div class="py-1 border-t border-slate-100 dark:border-slate-800">
-                            <button onclick="window.location.href='index.html'" class="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors font-semibold">
-                                <svg class="w-4 h-4 mr-3 text-red-500" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" /></svg>
-                                Sign Out
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </header>
 
-        <div class="p-6 lg:p-10 fade-in">
-            <div class="mb-10">
-                <h2 class="text-3xl font-black mb-1">Welcome, <span class="user-name-display text-blue-600">Emzor Pharma</span></h2>
-                <p class="text-slate-500 dark:text-slate-400 text-sm">Anti-Counterfeit Supply Chain Management</p>
+        <div class="w-full bg-slate-900 dark:bg-black py-2 overflow-hidden border-b border-slate-800 shrink-0">
+            <div class="flex gap-10 whitespace-nowrap" style="animation: ticker 30s linear infinite;">
+                <span class="text-green-400 text-[10px] font-bold uppercase tracking-widest flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></span> [VERIFIED] Lagos, NG - Paracetamol</span>
+                <span class="text-red-400 text-[10px] font-bold uppercase tracking-widest flex items-center"><span class="w-2 h-2 rounded-full bg-red-500 mr-2 animate-ping"></span> [USED FLAG] Counterfeit Detected - Kano</span>
+                <span class="text-green-400 text-[10px] font-bold uppercase tracking-widest flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></span> [VERIFIED] Abuja, NG - Amoxicillin</span>
+                <span class="text-green-400 text-[10px] font-bold uppercase tracking-widest flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></span> [VERIFIED] Accra, GH - Anti-Malarial</span>
+                <span class="text-green-400 text-[10px] font-bold uppercase tracking-widest flex items-center"><span class="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></span> [VERIFIED] Lagos, NG - Paracetamol</span>
+                <span class="text-red-400 text-[10px] font-bold uppercase tracking-widest flex items-center"><span class="w-2 h-2 rounded-full bg-red-500 mr-2 animate-ping"></span> [USED FLAG] Counterfeit Detected - Kano</span>
+            </div>
+        </div>
+
+        <div class="p-6 lg:p-10 fade-in w-full max-w-7xl mx-auto">
+            
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                <div>
+                    <h2 class="text-2xl font-black text-slate-900 dark:text-white">Welcome back, Emzor.</h2>
+                    <p class="text-slate-500 text-sm">Here is what is happening with your supply chain today.</p>
+                </div>
+                <button onclick="document.getElementById('batchModal').classList.remove('hidden')" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-blue-600/30 transition-colors flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                    Create New Batch
+                </button>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-                <div class="bg-white dark:bg-[#111827] p-6 rounded-[2rem] border border-slate-200 dark:border-slate-800 stat-card transition-colors shadow-sm">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total Issued</p>
-                    <p id="total-codes-counter" class="text-3xl font-black mt-2 text-slate-900 dark:text-white">48,200</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white dark:bg-[#111827] p-6 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total Pins Issued</p>
+                    <h3 class="text-3xl font-black text-slate-900 dark:text-white mt-2 skeleton-load">85,400</h3>
                 </div>
-                <div class="bg-white dark:bg-[#111827] p-6 rounded-[2rem] border border-slate-200 dark:border-slate-800 stat-card group transition-colors shadow-sm">
-                    <p class="text-[10px] font-bold text-green-500 uppercase tracking-widest">Verified Safe</p>
-                    <p class="text-3xl font-black mt-2 text-slate-900 dark:text-white">31,847</p>
+                <div class="bg-white dark:bg-[#111827] p-6 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-sm transition-colors relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-24 h-24 bg-green-500/10 rounded-full blur-2xl -mr-10 -mt-10"></div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Verified Safe Scans</p>
+                    <h3 class="text-3xl font-black text-green-500 mt-2 skeleton-load">12,892</h3>
                 </div>
-                <div class="bg-white dark:bg-[#111827] p-6 rounded-[2rem] border border-slate-200 dark:border-slate-800 stat-card group transition-colors shadow-sm">
-                    <p class="text-[10px] font-bold text-yellow-500 uppercase tracking-widest">Flagged</p>
-                    <p class="text-3xl font-black mt-2 text-slate-900 dark:text-white">23</p>
-                </div>
-                <div class="bg-white dark:bg-[#111827] p-6 rounded-[2rem] border border-red-200 dark:border-red-900/50 stat-card group transition-colors shadow-sm">
-                    <p class="text-[10px] font-bold text-red-500 uppercase tracking-widest">Counterfeit</p>
-                    <p class="text-3xl font-black mt-2 text-red-500">512</p>
+                <div class="bg-white dark:bg-[#111827] p-6 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-sm transition-colors relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-24 h-24 bg-red-500/10 rounded-full blur-2xl -mr-10 -mt-10"></div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Threats Flagged</p>
+                    <h3 class="text-3xl font-black text-red-500 mt-2 skeleton-load">34</h3>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-2 bg-white dark:bg-[#111827] rounded-[2.5rem] border border-slate-200 dark:border-slate-800 p-8 shadow-sm transition-colors">
-                    <div class="flex justify-between items-center mb-8">
-                        <h3 class="text-xl font-bold text-slate-900 dark:text-white">Recent Batches</h3>
-                        <button onclick="document.getElementById('batchModal').classList.remove('hidden')" class="hidden sm:flex items-center bg-slate-900 dark:bg-brand-blue text-white px-5 py-2.5 rounded-xl font-bold text-xs hover:bg-blue-600 transition shadow-lg">
-                            <svg class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
-                            New Batch
-                        </button>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead>
-                                <tr class="text-[10px] font-bold text-slate-400 uppercase border-b border-slate-100 dark:border-slate-800">
-                                    <th class="pb-4">Product</th>
-                                    <th class="pb-4 text-center">Qty</th>
-                                    <th class="pb-4 text-right">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="dashboard-table-body">
-                                <tr class="border-b border-slate-50 dark:border-slate-800/50">
-                                    <td class="py-4 text-sm font-semibold text-slate-900 dark:text-white">Paracetamol 500mg</td>
-                                    <td class="py-4 text-sm text-center text-slate-500">10,000</td>
-                                    <td class="py-4 text-right">
-                                        <span class="px-2.5 py-1 bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 text-[10px] font-bold uppercase rounded-lg">Active</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="bg-white dark:bg-[#111827] rounded-[2.5rem] border border-slate-200 dark:border-slate-800 p-8 shadow-sm transition-colors">
-                    <h3 class="text-xl font-bold mb-6 text-slate-900 dark:text-white">Threat Feed</h3>
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 transition-colors">
-                            <div class="flex gap-4 items-center">
-                                <div class="w-2 h-2 rounded-full bg-green-500"></div>
-                                <div><p class="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase">Lekki, Lagos</p><p class="text-[10px] text-slate-400">Verified Product</p></div>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between p-4 rounded-2xl bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/50 transition-colors">
-                            <div class="flex gap-4 items-center">
-                                <div class="w-2 h-2 rounded-full bg-red-500 animate-ping"></div>
-                                <div><p class="text-xs font-bold text-red-700 dark:text-red-400 uppercase">Mushin, Lagos</p><p class="text-[10px] text-red-500">Fake QR Scan</p></div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="bg-white dark:bg-[#111827] rounded-[2.5rem] border border-slate-200 dark:border-slate-800 p-8 shadow-sm transition-colors">
+                <h3 class="text-xl font-bold mb-6 text-slate-900 dark:text-white">Recent Batch Activity</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-100 dark:border-slate-800 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                <th class="pb-4 pr-6">Batch ID</th>
+                                <th class="pb-4 px-6">Product</th>
+                                <th class="pb-4 px-6">Status</th>
+                                <th class="pb-4 pl-6 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm">
+                            <tr class="border-b border-slate-50 dark:border-slate-800/50">
+                                <td class="py-4 pr-6 font-mono font-bold text-blue-600 dark:text-blue-400">BT-2026-04A</td>
+                                <td class="py-4 px-6 font-semibold text-slate-900 dark:text-white">Paracetamol 500mg</td>
+                                <td class="py-4 px-6"><span class="bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Active</span></td>
+                                <td class="py-4 pl-6 text-right"><a href="batches.html" class="text-slate-400 hover:text-blue-600 font-bold transition-colors">View</a></td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 pr-6 font-mono font-bold text-blue-600 dark:text-blue-400">BT-2026-03B</td>
+                                <td class="py-4 px-6 font-semibold text-slate-900 dark:text-white">Amoxicillin 250mg</td>
+                                <td class="py-4 px-6"><span class="bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Depleted</span></td>
+                                <td class="py-4 pl-6 text-right"><a href="batches.html" class="text-slate-400 hover:text-blue-600 font-bold transition-colors">View</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+
         </div>
     </main>
 
@@ -242,23 +238,17 @@
             </div>
             <div class="mt-8 flex gap-4">
                 <button onclick="document.getElementById('batchModal').classList.add('hidden')" class="flex-1 py-4 font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors">Cancel</button>
-                <button onclick="document.getElementById('batchModal').classList.add('hidden'); document.getElementById('successModal').classList.remove('hidden')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-bold shadow-xl shadow-blue-600/30 transition-colors">Generate</button>
+                <button onclick="document.getElementById('batchModal').classList.add('hidden'); showToast('Success! Batch codes generated.', 'success');" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-bold shadow-xl shadow-blue-600/30 transition-colors">Generate</button>
             </div>
-        </div>
-    </div>
-
-    <div id="successModal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[110] flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-[#111827] rounded-[3rem] p-10 w-full max-w-sm text-center shadow-2xl border border-slate-200 dark:border-slate-800 transition-colors">
-            <div class="w-20 h-20 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-            </div>
-            <h2 class="text-2xl font-black mb-2 text-slate-900 dark:text-white">Success!</h2>
-            <p class="text-slate-500 text-sm mb-8">Your batch codes have been generated and ready for print.</p>
-            <button onclick="window.location.reload()" class="w-full py-4 bg-slate-900 dark:bg-brand-blue hover:bg-slate-800 dark:hover:bg-blue-700 text-white rounded-2xl font-bold shadow-lg transition-colors">Back to Dashboard</button>
         </div>
     </div>
 
     <script>
+        // REMOVE SKELETON LOADING AFTER 1.5 SECONDS (Wow Factor)
+        setTimeout(() => {
+            document.querySelectorAll('.skeleton-load').forEach(el => el.classList.remove('skeleton-load'));
+        }, 1500);
+
         // MOBILE MENU LOGIC
         function toggleMobileMenu() {
             const sidebar = document.getElementById('sidebar');
@@ -269,12 +259,11 @@
 
         // PROFILE DROPDOWN LOGIC
         function toggleProfileMenu(event) {
-            if(event) event.stopPropagation(); // Prevents instant closing
+            if(event) event.stopPropagation();
             const dropdown = document.getElementById('profileDropdown');
             dropdown.classList.toggle('hidden');
         }
 
-        // CLOSE DROPDOWN WHEN CLICKING OUTSIDE
         document.addEventListener('click', (event) => {
             const dropdown = document.getElementById('profileDropdown');
             const button = document.querySelector('.user-initials-display');
@@ -283,31 +272,40 @@
             }
         });
 
-        // THEME LOGIC (Integrated into Dropdown)
+        // THEME LOGIC
         document.addEventListener('DOMContentLoaded', () => {
             const themeBtn = document.getElementById('themeToggle');
             const htmlElement = document.documentElement;
-            
-            // Check if user picked dark mode previously
-            if(localStorage.getItem('theme') === 'dark') {
-                htmlElement.classList.add('dark');
-            }
-
-            // Listen for clicks on the dropdown theme button
+            if(localStorage.getItem('theme') === 'dark') htmlElement.classList.add('dark');
             if (themeBtn) {
                 themeBtn.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Keeps dropdown open while clicking
+                    e.stopPropagation();
                     htmlElement.classList.toggle('dark'); 
-                    
-                    // Save their choice
-                    if(htmlElement.classList.contains('dark')) {
-                        localStorage.setItem('theme', 'dark');
-                    } else {
-                        localStorage.setItem('theme', 'light');
-                    }
+                    localStorage.setItem('theme', htmlElement.classList.contains('dark') ? 'dark' : 'light');
                 });
             }
         });
+
+        // TOAST NOTIFICATIONS
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            const bgColor = type === 'success' ? 'bg-green-600' : 'bg-red-600';
+            const icon = type === 'success' ? 
+                `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>` : 
+                `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>`;
+            
+            toast.className = `flex items-center gap-3 px-6 py-4 rounded-xl shadow-2xl text-white font-bold transform transition-all duration-500 translate-y-10 opacity-0 ${bgColor}`;
+            toast.innerHTML = `${icon} <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-y-10', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 500);
+            }, 3500);
+        }
     </script>
 </body>
 </html>

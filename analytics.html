@@ -15,6 +15,8 @@
         }
     </script>
     <link rel="stylesheet" href="/CSS/Style.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-slate-50 dark:bg-brand-dark text-slate-900 dark:text-white flex min-h-screen overflow-hidden transition-colors duration-300">
     
@@ -60,7 +62,7 @@
             <svg class="w-6 h-6 mb-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" /></svg>
             <span class="text-[10px] font-bold uppercase">Batches</span>
         </a>
-        <button onclick="document.getElementById('batchModal').classList.remove('hidden')" class="bg-blue-600 w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-500/40 -translate-y-6 border-4 border-slate-50 dark:border-brand-dark transition-colors">
+        <button onclick="document.getElementById('batchModal').classList.remove('hidden')" class="relative z-[70] bg-blue-600 w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-500/40 -translate-y-6 border-4 border-slate-50 dark:border-brand-dark transition-colors">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
         </button>
         <a href="analytics.html" class="flex flex-col items-center text-blue-600">
@@ -112,16 +114,43 @@
             </div>
         </header>
 
-        <div class="p-6 lg:p-10 fade-in">
-            <div class="bg-white dark:bg-[#111827] p-12 rounded-[3rem] border border-slate-200 dark:border-slate-800 text-center flex flex-col items-center justify-center transition-colors shadow-sm">
-                <div class="w-24 h-24 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center mb-6">
-                    <svg class="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+        <div class="p-6 lg:p-10 fade-in w-full max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <div class="bg-white dark:bg-[#111827] p-8 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+                    <h3 class="font-bold text-slate-500 uppercase tracking-widest text-xs mb-6">Verification Scans (30 Days)</h3>
+                    <div class="relative h-64 w-full">
+                        <canvas id="scanChart"></canvas>
+                    </div>
                 </div>
-                <h3 class="text-3xl font-black mb-2 text-slate-900 dark:text-white">Lagos, Nigeria</h3>
-                <p class="text-slate-500 dark:text-slate-400 max-w-sm">92% of scans originating from Lagos state are currently verified as genuine.</p>
+                
+                <div class="bg-white dark:bg-[#111827] p-8 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+                    <h3 class="font-bold text-slate-500 uppercase tracking-widest text-xs mb-6">Scan Authenticity Breakdown</h3>
+                    <div class="relative h-64 w-full flex justify-center">
+                        <canvas id="doughnutChart"></canvas>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </main>
+
+    <div id="batchModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-[#111827] p-8 rounded-[2.5rem] w-full max-w-lg shadow-2xl scale-in border border-slate-200 dark:border-slate-800 transition-colors">
+            <h2 class="text-2xl font-black mb-6 text-slate-900 dark:text-white">Create New Batch</h2>
+            <div class="space-y-4">
+                <input type="text" placeholder="Product Name" class="w-full px-5 py-4 border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-[#0B1120] text-slate-900 dark:text-white rounded-2xl outline-none focus:ring-2 focus:ring-blue-500/50 transition-all">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="Batch ID" class="w-full px-5 py-4 border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-[#0B1120] text-slate-900 dark:text-white rounded-2xl outline-none focus:ring-2 focus:ring-blue-500/50 transition-all">
+                    <input type="number" placeholder="Quantity" class="w-full px-5 py-4 border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-[#0B1120] text-slate-900 dark:text-white rounded-2xl outline-none focus:ring-2 focus:ring-blue-500/50 transition-all">
+                </div>
+            </div>
+            <div class="mt-8 flex gap-4">
+                <button onclick="document.getElementById('batchModal').classList.add('hidden')" class="flex-1 py-4 font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors">Cancel</button>
+                <button onclick="document.getElementById('batchModal').classList.add('hidden'); alert('Batch generated!');" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-bold shadow-xl shadow-blue-600/30 transition-colors">Generate</button>
+            </div>
+        </div>
+    </div>
 
     <script src="/JS/main.js"></script>
     <script>
@@ -149,14 +178,72 @@
         document.addEventListener('DOMContentLoaded', () => {
             const themeBtn = document.getElementById('themeToggle');
             const htmlElement = document.documentElement;
+            
+            // Check Theme
             if(localStorage.getItem('theme') === 'dark') htmlElement.classList.add('dark');
+            
             if (themeBtn) {
                 themeBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     htmlElement.classList.toggle('dark'); 
                     localStorage.setItem('theme', htmlElement.classList.contains('dark') ? 'dark' : 'light');
+                    window.location.reload(); // Reload to update chart colors
                 });
             }
+
+            // LOAD CHART.JS
+            const isDark = document.documentElement.classList.contains('dark');
+            const textColor = isDark ? '#94a3b8' : '#64748b'; 
+            const gridColor = isDark ? '#1e293b' : '#f1f5f9'; 
+
+            Chart.defaults.color = textColor;
+            Chart.defaults.font.family = "'Inter', sans-serif";
+
+            // Line Chart
+            new Chart(document.getElementById('scanChart'), {
+                type: 'line',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                    datasets: [{ 
+                        label: 'Total Scans', 
+                        data: [1200, 1900, 3000, 5000], 
+                        borderColor: '#1D4ED8', 
+                        backgroundColor: 'rgba(29, 78, 216, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { border: {display: false}, grid: { color: gridColor } },
+                        x: { border: {display: false}, grid: { display: false } }
+                    }
+                }
+            });
+
+            // Doughnut Chart
+            new Chart(document.getElementById('doughnutChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Genuine', 'Counterfeit Flagged'],
+                    datasets: [{ 
+                        data: [92, 8], 
+                        backgroundColor: ['#10B981', '#EF4444'], 
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: { legend: { position: 'bottom' } }
+                }
+            });
         });
     </script>
 </body>
