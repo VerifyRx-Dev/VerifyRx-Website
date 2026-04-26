@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | VerifyRx</title>
+    
+    <link rel="icon" type="image/png" href="/Images/QR logo.png">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { 
+            darkMode: 'class',
             theme: { 
                 extend: { 
                     colors: { brand: { dark: '#0B1120', blue: '#1D4ED8' } } 
@@ -16,146 +20,208 @@
     </script>
     <link rel="stylesheet" href="/CSS/Style.css">
 </head>
-<body class="bg-slate-50 text-slate-900 flex min-h-screen overflow-hidden">
+<body class="bg-slate-50 dark:bg-brand-dark text-slate-900 dark:text-white flex min-h-screen overflow-hidden transition-colors duration-300">
 
-    <div id="sidebarOverlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"></div>
+    <div id="sidebarOverlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden backdrop-blur-sm transition-opacity"></div>
 
-    <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 w-64 bg-brand-dark text-slate-300 flex flex-col justify-between z-50 transition-transform duration-300 sidebar-hidden lg:translate-x-0 shrink-0">
+    <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 w-64 bg-brand-dark text-slate-300 flex flex-col justify-between z-50 transition-transform duration-300 sidebar-hidden lg:translate-x-0 shrink-0 border-r border-slate-800">
         <div>
             <div class="h-20 flex items-center px-8 border-b border-slate-800 bg-black/20">
-                <img src="Images/QR logo.png" alt="Logo" class="h-6 w-auto mr-3">
+                <img src="/Images/QR logo.png" alt="Logo" class="h-6 w-auto mr-3 bg-white rounded-sm p-0.5">
                 <span class="text-white font-bold tracking-wide text-lg">VerifyRx</span>
             </div>
             <nav class="p-4 space-y-2 mt-4">
-                <a href="dashboard.html" class="flex items-center px-4 py-3 bg-blue-600 text-white rounded-xl font-semibold shadow-lg shadow-blue-600/20">
-                    <span class="mr-3">📊</span> Overview
+                <a href="dashboard.html" class="flex items-center px-4 py-3 bg-blue-600 text-white rounded-xl font-semibold shadow-lg shadow-blue-600/20 transition-all hover:scale-[1.02]">
+                    <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                    </svg>
+                    Overview
                 </a>
                 <a href="batches.html" class="flex items-center px-4 py-3 hover:bg-slate-800 hover:text-white rounded-xl transition-all">
-                    <span class="mr-3">📦</span> Batches
+                    <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                    </svg>
+                    Batches
                 </a>
                 <a href="analytics.html" class="flex items-center px-4 py-3 hover:bg-slate-800 hover:text-white rounded-xl transition-all">
-                    <span class="mr-3">📍</span> Activity
+                    <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                    </svg>
+                    Activity Maps
                 </a>
                 <a href="alerts.html" class="flex items-center px-4 py-3 hover:bg-slate-800 hover:text-white rounded-xl transition-all">
-                    <span class="mr-3">⚠️</span> Alerts
+                    <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    Threat Alerts
                 </a>
                 <a href="settings.html" class="flex items-center px-4 py-3 hover:bg-slate-800 hover:text-white rounded-xl transition-all border-t border-slate-800 mt-4 pt-4">
-                    <span class="mr-3">👤</span> Profile & KYC
+                    <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                    </svg>
+                    Profile & KYC
                 </a>
             </nav>
         </div>
         <div class="p-6 border-t border-slate-800">
-            <button onclick="signOut()" class="w-full flex items-center px-4 py-3 text-red-400 hover:bg-red-400/10 rounded-xl transition-colors font-bold text-sm">
-                <span class="mr-3">🚪</span> Sign Out
+            <button onclick="window.location.href='index.html'" class="w-full flex items-center px-4 py-3 text-red-400 hover:bg-red-500/10 rounded-xl transition-colors font-bold text-sm">
+                <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                </svg>
+                Sign Out
             </button>
         </div>
     </aside>
 
-    <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 px-6 py-3 flex justify-between items-center z-[60] shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-brand-dark border-t border-slate-200 dark:border-slate-800 px-6 py-3 flex justify-between items-center z-[60] shadow-[0_-4px_20px_rgba(0,0,0,0.05)] transition-colors">
         <a href="dashboard.html" class="flex flex-col items-center text-blue-600">
-            <span class="text-xl">📊</span>
-            <span class="text-[10px] font-bold mt-1 uppercase">Home</span>
+            <svg class="w-6 h-6 mb-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>
+            <span class="text-[10px] font-bold uppercase">Home</span>
         </a>
-        <a href="batches.html" class="flex flex-col items-center text-slate-400">
-            <span class="text-xl">📦</span>
-            <span class="text-[10px] font-bold mt-1 uppercase">Batches</span>
+        <a href="batches.html" class="flex flex-col items-center text-slate-400 dark:text-slate-500 hover:text-blue-600 transition-colors">
+            <svg class="w-6 h-6 mb-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" /></svg>
+            <span class="text-[10px] font-bold uppercase">Batches</span>
         </a>
-        <button onclick="document.getElementById('batchModal').classList.remove('hidden')" class="bg-blue-600 w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-500/40 -translate-y-6 border-4 border-slate-50">
-            <span class="text-2xl font-bold">+</span>
+        <button onclick="document.getElementById('batchModal').classList.remove('hidden')" class="bg-blue-600 w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-500/40 -translate-y-6 border-4 border-slate-50 dark:border-brand-dark transition-colors">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
         </button>
-        <a href="analytics.html" class="flex flex-col items-center text-slate-400">
-            <span class="text-xl">📍</span>
-            <span class="text-[10px] font-bold mt-1 uppercase">Maps</span>
+        <a href="analytics.html" class="flex flex-col items-center text-slate-400 dark:text-slate-500 hover:text-blue-600 transition-colors">
+            <svg class="w-6 h-6 mb-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+            <span class="text-[10px] font-bold uppercase">Maps</span>
         </a>
-        <a href="settings.html" class="flex flex-col items-center text-slate-400">
-            <span class="text-xl">👤</span>
-            <span class="text-[10px] font-bold mt-1 uppercase">Profile</span>
+        <a href="settings.html" class="flex flex-col items-center text-slate-400 dark:text-slate-500 hover:text-blue-600 transition-colors">
+            <svg class="w-6 h-6 mb-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+            <span class="text-[10px] font-bold uppercase">Profile</span>
         </a>
     </nav>
 
     <main class="flex-1 flex flex-col h-screen overflow-y-auto pb-24 lg:pb-0">
-        <header class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-6 lg:px-10 sticky top-0 z-30 shrink-0">
+        <header class="h-20 bg-white/80 dark:bg-brand-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 lg:px-10 sticky top-0 z-30 shrink-0 transition-colors">
             <div class="flex items-center gap-4">
-                <button onclick="toggleMobileMenu()" class="lg:hidden p-2 hover:bg-slate-100 rounded-lg">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                <button onclick="toggleMobileMenu()" class="lg:hidden p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                    <svg class="w-6 h-6 text-slate-900 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
-                <h1 class="text-lg font-bold">Manufacturer Portal</h1>
+                <h1 class="text-lg font-bold text-slate-900 dark:text-white">Manufacturer Portal</h1>
             </div>
 
             <div class="flex items-center gap-4">
-                <div id="verificationStatus" class="hidden sm:flex items-center gap-2 bg-yellow-50 text-yellow-700 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border border-yellow-100">
-                    ⚠️ Pending Audit
+                <div id="verificationStatus" class="hidden sm:flex items-center gap-2 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-500 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border border-yellow-100 dark:border-yellow-800/50">
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    Pending Audit
                 </div>
                 <div class="text-right hidden md:block">
-                    <p class="text-sm font-bold text-slate-900 user-name-display">...</p>
+                    <p class="text-sm font-bold text-slate-900 dark:text-white user-name-display">Emzor Pharma</p>
                     <div class="flex items-center justify-end">
-                        <span class="status-pulse"></span>
-                        <p class="text-[9px] text-green-600 font-bold uppercase">Live Security</p>
+                        <span class="w-2 h-2 rounded-full bg-green-500 mr-1.5 animate-pulse"></span>
+                        <p class="text-[9px] text-green-600 dark:text-green-400 font-bold uppercase">Live Security</p>
                     </div>
                 </div>
-                <button onclick="toggleProfileMenu()" class="w-10 h-10 bg-blue-600 rounded-full text-white font-bold user-initials-display ring-4 ring-blue-50">--</button>
+
+                <div class="relative ml-2">
+                    <button onclick="toggleProfileMenu(event)" class="w-10 h-10 bg-blue-600 rounded-full text-white font-bold user-initials-display ring-4 ring-blue-50 dark:ring-slate-800 flex items-center justify-center hover:scale-105 transition-transform z-50">EP</button>
+                    
+                    <div id="profileDropdown" class="hidden absolute right-0 mt-3 w-56 bg-white dark:bg-[#111827] rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-black/50 border border-slate-100 dark:border-slate-800 py-2 z-50 transform origin-top-right transition-all">
+                        <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-800">
+                            <p class="text-sm font-bold text-slate-900 dark:text-white">Emzor Pharma</p>
+                            <p class="text-xs text-slate-500">admin@emzorpharma.com</p>
+                        </div>
+                        
+                        <div class="py-1">
+                            <a href="settings.html" class="flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                <svg class="w-4 h-4 mr-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                                Profile Settings
+                            </a>
+                        </div>
+                        
+                        <div class="py-1 border-t border-slate-100 dark:border-slate-800">
+                            <button id="themeToggle" class="w-full flex items-center px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                <svg class="w-4 h-4 mr-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" /></svg>
+                                Switch Theme
+                            </button>
+                        </div>
+                        
+                        <div class="py-1 border-t border-slate-100 dark:border-slate-800">
+                            <button onclick="window.location.href='index.html'" class="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors font-semibold">
+                                <svg class="w-4 h-4 mr-3 text-red-500" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" /></svg>
+                                Sign Out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </header>
 
         <div class="p-6 lg:p-10 fade-in">
             <div class="mb-10">
-                <h2 class="text-3xl font-black mb-1">Welcome, <span class="user-name-display text-blue-600">...</span></h2>
-                <p class="text-slate-500 text-sm">Anti-Counterfeit Supply Chain Management</p>
+                <h2 class="text-3xl font-black mb-1">Welcome, <span class="user-name-display text-blue-600">Emzor Pharma</span></h2>
+                <p class="text-slate-500 dark:text-slate-400 text-sm">Anti-Counterfeit Supply Chain Management</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-                <div class="bg-white p-6 rounded-[2rem] border border-slate-200 stat-card">
+                <div class="bg-white dark:bg-[#111827] p-6 rounded-[2rem] border border-slate-200 dark:border-slate-800 stat-card transition-colors shadow-sm">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total Issued</p>
-                    <p id="total-codes-counter" class="text-3xl font-black mt-2">48,200</p>
+                    <p id="total-codes-counter" class="text-3xl font-black mt-2 text-slate-900 dark:text-white">48,200</p>
                 </div>
-                <div class="bg-white p-6 rounded-[2rem] border border-slate-200 stat-card group">
+                <div class="bg-white dark:bg-[#111827] p-6 rounded-[2rem] border border-slate-200 dark:border-slate-800 stat-card group transition-colors shadow-sm">
                     <p class="text-[10px] font-bold text-green-500 uppercase tracking-widest">Verified Safe</p>
-                    <p class="text-3xl font-black mt-2">31,847</p>
+                    <p class="text-3xl font-black mt-2 text-slate-900 dark:text-white">31,847</p>
                 </div>
-                <div class="bg-white p-6 rounded-[2rem] border border-slate-200 stat-card group">
+                <div class="bg-white dark:bg-[#111827] p-6 rounded-[2rem] border border-slate-200 dark:border-slate-800 stat-card group transition-colors shadow-sm">
                     <p class="text-[10px] font-bold text-yellow-500 uppercase tracking-widest">Flagged</p>
-                    <p class="text-3xl font-black mt-2">23</p>
+                    <p class="text-3xl font-black mt-2 text-slate-900 dark:text-white">23</p>
                 </div>
-                <div class="bg-white p-6 rounded-[2rem] border border-slate-200 stat-card group">
+                <div class="bg-white dark:bg-[#111827] p-6 rounded-[2rem] border border-red-200 dark:border-red-900/50 stat-card group transition-colors shadow-sm">
                     <p class="text-[10px] font-bold text-red-500 uppercase tracking-widest">Counterfeit</p>
-                    <p class="text-3xl font-black mt-2">512</p>
+                    <p class="text-3xl font-black mt-2 text-red-500">512</p>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-2 bg-white rounded-[2.5rem] border border-slate-200 p-8 shadow-sm">
+                <div class="lg:col-span-2 bg-white dark:bg-[#111827] rounded-[2.5rem] border border-slate-200 dark:border-slate-800 p-8 shadow-sm transition-colors">
                     <div class="flex justify-between items-center mb-8">
-                        <h3 class="text-xl font-bold">Recent Batches</h3>
-                        <button onclick="document.getElementById('batchModal').classList.remove('hidden')" class="hidden sm:block bg-slate-900 text-white px-5 py-2.5 rounded-xl font-bold text-xs hover:bg-blue-600 transition">+ New Batch</button>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white">Recent Batches</h3>
+                        <button onclick="document.getElementById('batchModal').classList.remove('hidden')" class="hidden sm:flex items-center bg-slate-900 dark:bg-brand-blue text-white px-5 py-2.5 rounded-xl font-bold text-xs hover:bg-blue-600 transition shadow-lg">
+                            <svg class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                            New Batch
+                        </button>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left">
                             <thead>
-                                <tr class="text-[10px] font-bold text-slate-400 uppercase border-b border-slate-100">
+                                <tr class="text-[10px] font-bold text-slate-400 uppercase border-b border-slate-100 dark:border-slate-800">
                                     <th class="pb-4">Product</th>
                                     <th class="pb-4 text-center">Qty</th>
                                     <th class="pb-4 text-right">Status</th>
                                 </tr>
                             </thead>
                             <tbody id="dashboard-table-body">
-                                </tbody>
+                                <tr class="border-b border-slate-50 dark:border-slate-800/50">
+                                    <td class="py-4 text-sm font-semibold text-slate-900 dark:text-white">Paracetamol 500mg</td>
+                                    <td class="py-4 text-sm text-center text-slate-500">10,000</td>
+                                    <td class="py-4 text-right">
+                                        <span class="px-2.5 py-1 bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 text-[10px] font-bold uppercase rounded-lg">Active</span>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-[2.5rem] border border-slate-200 p-8 shadow-sm">
-                    <h3 class="text-xl font-bold mb-6">Threat Feed</h3>
-                    <div class="space-y-6">
-                        <div class="flex items-center justify-between p-3 rounded-2xl hover:bg-slate-50 transition">
-                            <div class="flex gap-3 items-center">
-                                <span class="status-pulse"></span>
-                                <div><p class="text-xs font-bold text-slate-800 uppercase">Lekki, Lagos</p><p class="text-[10px] text-slate-400">Verified Product</p></div>
+                <div class="bg-white dark:bg-[#111827] rounded-[2.5rem] border border-slate-200 dark:border-slate-800 p-8 shadow-sm transition-colors">
+                    <h3 class="text-xl font-bold mb-6 text-slate-900 dark:text-white">Threat Feed</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 transition-colors">
+                            <div class="flex gap-4 items-center">
+                                <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                                <div><p class="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase">Lekki, Lagos</p><p class="text-[10px] text-slate-400">Verified Product</p></div>
                             </div>
                         </div>
-                        <div class="flex items-center justify-between p-3 rounded-2xl bg-red-50 border border-red-100">
-                            <div class="flex gap-3 items-center">
+                        <div class="flex items-center justify-between p-4 rounded-2xl bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/50 transition-colors">
+                            <div class="flex gap-4 items-center">
                                 <div class="w-2 h-2 rounded-full bg-red-500 animate-ping"></div>
-                                <div><p class="text-xs font-bold text-red-700 uppercase">Mushin, Lagos</p><p class="text-[10px] text-red-500">Fake QR Scan</p></div>
+                                <div><p class="text-xs font-bold text-red-700 dark:text-red-400 uppercase">Mushin, Lagos</p><p class="text-[10px] text-red-500">Fake QR Scan</p></div>
                             </div>
                         </div>
                     </div>
@@ -165,36 +231,83 @@
     </main>
 
     <div id="batchModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-        <div class="bg-white p-8 rounded-[2.5rem] w-full max-w-lg shadow-2xl scale-in">
-            <h2 class="text-2xl font-black mb-6">Create New Batch</h2>
+        <div class="bg-white dark:bg-[#111827] p-8 rounded-[2.5rem] w-full max-w-lg shadow-2xl scale-in border border-slate-200 dark:border-slate-800 transition-colors">
+            <h2 class="text-2xl font-black mb-6 text-slate-900 dark:text-white">Create New Batch</h2>
             <div class="space-y-4">
-                <input type="text" placeholder="Product Name" class="w-full px-5 py-4 border border-slate-100 bg-slate-50 rounded-2xl outline-none focus:ring-4 focus:ring-blue-500/10 transition-all">
+                <input type="text" placeholder="Product Name" class="w-full px-5 py-4 border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-[#0B1120] text-slate-900 dark:text-white rounded-2xl outline-none focus:ring-2 focus:ring-blue-500/50 transition-all">
                 <div class="grid grid-cols-2 gap-4">
-                    <input type="text" placeholder="Batch ID" class="w-full px-5 py-4 border border-slate-100 bg-slate-50 rounded-2xl outline-none">
-                    <input type="number" placeholder="Quantity" class="w-full px-5 py-4 border border-slate-100 bg-slate-50 rounded-2xl outline-none">
+                    <input type="text" placeholder="Batch ID" class="w-full px-5 py-4 border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-[#0B1120] text-slate-900 dark:text-white rounded-2xl outline-none focus:ring-2 focus:ring-blue-500/50 transition-all">
+                    <input type="number" placeholder="Quantity" class="w-full px-5 py-4 border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-[#0B1120] text-slate-900 dark:text-white rounded-2xl outline-none focus:ring-2 focus:ring-blue-500/50 transition-all">
                 </div>
             </div>
             <div class="mt-8 flex gap-4">
-                <button onclick="document.getElementById('batchModal').classList.add('hidden')" class="flex-1 py-4 font-bold text-slate-400">Cancel</button>
-                <button class="flex-1 bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-xl shadow-blue-600/30">Generate</button>
+                <button onclick="document.getElementById('batchModal').classList.add('hidden')" class="flex-1 py-4 font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors">Cancel</button>
+                <button onclick="document.getElementById('batchModal').classList.add('hidden'); document.getElementById('successModal').classList.remove('hidden')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-bold shadow-xl shadow-blue-600/30 transition-colors">Generate</button>
             </div>
         </div>
     </div>
 
     <div id="successModal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[110] flex items-center justify-center p-4">
-        <div class="bg-white rounded-[3rem] p-10 w-full max-w-sm text-center shadow-2xl">
-            <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-6">✓</div>
-            <h2 class="text-2xl font-black mb-2">Success!</h2>
-            <p class="text-slate-500 text-sm mb-8">Your batch codes have been generated and ready for print.</p>
-            <div class="bg-slate-50 p-8 rounded-3xl mb-8 border-2 border-dashed border-slate-200">
-                <div id="qrContainer" class="mx-auto flex justify-center"></div>
-                <p id="samplePinDisplay" class="mt-4 font-mono text-xs font-bold text-blue-600 uppercase tracking-widest"></p>
+        <div class="bg-white dark:bg-[#111827] rounded-[3rem] p-10 w-full max-w-sm text-center shadow-2xl border border-slate-200 dark:border-slate-800 transition-colors">
+            <div class="w-20 h-20 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
             </div>
-            <button onclick="window.location.reload()" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold shadow-lg">Back to Dashboard</button>
+            <h2 class="text-2xl font-black mb-2 text-slate-900 dark:text-white">Success!</h2>
+            <p class="text-slate-500 text-sm mb-8">Your batch codes have been generated and ready for print.</p>
+            <button onclick="window.location.reload()" class="w-full py-4 bg-slate-900 dark:bg-brand-blue hover:bg-slate-800 dark:hover:bg-blue-700 text-white rounded-2xl font-bold shadow-lg transition-colors">Back to Dashboard</button>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="/JS/main.js"></script>
+    <script>
+        // MOBILE MENU LOGIC
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('sidebar-hidden');
+            overlay.classList.toggle('hidden');
+        }
+
+        // PROFILE DROPDOWN LOGIC
+        function toggleProfileMenu(event) {
+            if(event) event.stopPropagation(); // Prevents instant closing
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        // CLOSE DROPDOWN WHEN CLICKING OUTSIDE
+        document.addEventListener('click', (event) => {
+            const dropdown = document.getElementById('profileDropdown');
+            const button = document.querySelector('.user-initials-display');
+            if (!dropdown.classList.contains('hidden') && !dropdown.contains(event.target) && event.target !== button) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        // THEME LOGIC (Integrated into Dropdown)
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeBtn = document.getElementById('themeToggle');
+            const htmlElement = document.documentElement;
+            
+            // Check if user picked dark mode previously
+            if(localStorage.getItem('theme') === 'dark') {
+                htmlElement.classList.add('dark');
+            }
+
+            // Listen for clicks on the dropdown theme button
+            if (themeBtn) {
+                themeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Keeps dropdown open while clicking
+                    htmlElement.classList.toggle('dark'); 
+                    
+                    // Save their choice
+                    if(htmlElement.classList.contains('dark')) {
+                        localStorage.setItem('theme', 'dark');
+                    } else {
+                        localStorage.setItem('theme', 'light');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
