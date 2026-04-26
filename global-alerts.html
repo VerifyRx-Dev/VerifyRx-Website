@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Safety Alerts | VerifyRx</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { 
+            darkMode: 'class',
+            theme: { extend: { colors: { brand: { navy: '#0A1628', blue: '#1652F0' } } } } 
+        }
+    </script>
+    <link rel="stylesheet" href="/CSS/Style.css">
+    <style>
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        .dark .glass-card {
+            background: rgba(10, 22, 40, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-brand-navy text-slate-900 dark:text-white transition-colors duration-300">
+
+    <header class="h-20 glass-card sticky top-0 z-50 flex items-center justify-between px-6 md:px-10">
+        <div class="flex items-center gap-3">
+            <img src="/Images/QR logo.png" alt="VerifyRx Logo" class="h-8 w-auto bg-white rounded-md p-1">
+            <span class="font-bold text-xl tracking-wide">VerifyRx Alerts</span>
+        </div>
+        <nav class="hidden md:flex gap-6 font-semibold text-sm">
+            <a href="index.html" class="hover:text-brand-blue transition">Home</a>
+            <a href="patients.html" class="hover:text-brand-blue transition">Scan Medication</a>
+        </nav>
+        
+        <button id="themeToggle" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-full transition-colors cursor-pointer focus:outline-none" title="Switch Theme">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+            </svg>
+        </button>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-16">
+        
+        <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-black mb-4">Global Health Impact</h1>
+            <p class="text-lg opacity-70 max-w-2xl mx-auto">Tracking the severe impact of counterfeit pharmaceuticals across sub-Saharan Africa to protect vulnerable patients.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            <div class="glass-card p-8 rounded-3xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-red-500/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                <h3 class="text-brand-blue font-bold tracking-widest text-sm uppercase mb-2">UNODC Report</h3>
+                <p class="text-5xl font-black text-red-500 mb-4">267,000</p>
+                <p class="text-lg font-semibold mb-2">Annual Deaths (Falsified Antimalarials)</p>
+                <p class="opacity-70 text-sm leading-relaxed">Counterfeit and substandard malaria medication claims hundreds of thousands of lives annually in sub-Saharan Africa, primarily affecting children under five.</p>
+            </div>
+
+            <div class="glass-card p-8 rounded-3xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-orange-500/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                <h3 class="text-brand-blue font-bold tracking-widest text-sm uppercase mb-2">UNODC Report</h3>
+                <p class="text-5xl font-black text-orange-500 mb-4">169,271</p>
+                <p class="text-lg font-semibold mb-2">Annual Deaths (Falsified Antibiotics)</p>
+                <p class="opacity-70 text-sm leading-relaxed">Substandard antibiotics linked to severe illness and fatalities, highlighting the urgent need for verifiable pharmaceutical supply chains.</p>
+            </div>
+        </div>
+
+        <h2 class="text-2xl font-bold mb-6 border-b border-slate-200 dark:border-slate-800 pb-4">Recent Verified Alerts</h2>
+        <div class="space-y-4">
+            <div class="glass-card p-6 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-l-4 border-l-red-500">
+                <div>
+                    <span class="px-2 py-1 bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded text-[10px] font-bold uppercase tracking-widest mb-2 inline-block">High Priority</span>
+                    <h4 class="font-bold text-lg">Counterfeit Batch: Amoxicillin 500mg</h4>
+                    <p class="text-sm opacity-70">Detected in Lagos region. Packaging lacks NAFDAC holographic seal.</p>
+                </div>
+                <button class="px-4 py-2 bg-slate-200 dark:bg-slate-800 rounded-lg text-sm font-bold hover:bg-slate-300 dark:hover:bg-slate-700 transition">View Details</button>
+            </div>
+            
+            <div class="glass-card p-6 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-l-4 border-l-amber-500">
+                <div>
+                    <span class="px-2 py-1 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 rounded text-[10px] font-bold uppercase tracking-widest mb-2 inline-block">Warning</span>
+                    <h4 class="font-bold text-lg">Multiple 'USED' Codes Flagged</h4>
+                    <p class="text-sm opacity-70">Over 50 scans of identical QR codes traced to a pharmacy in Kano.</p>
+                </div>
+                <button class="px-4 py-2 bg-slate-200 dark:bg-slate-800 rounded-lg text-sm font-bold hover:bg-slate-300 dark:hover:bg-slate-700 transition">View Details</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeBtn = document.getElementById('themeToggle');
+            const htmlElement = document.documentElement;
+            if(localStorage.getItem('theme') === 'dark') htmlElement.classList.add('dark');
+            
+            themeBtn.addEventListener('click', () => {
+                htmlElement.classList.toggle('dark');
+                localStorage.setItem('theme', htmlElement.classList.contains('dark') ? 'dark' : 'light');
+            });
+        });
+    </script>
+</body>
+</html>

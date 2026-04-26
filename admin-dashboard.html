@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Ops | VerifyRx</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { 
+            darkMode: 'class',
+            theme: { extend: { colors: { brand: { navy: '#0A1628', blue: '#1652F0', silver: '#E2E8F0' } } } } 
+        }
+    </script>
+    <link rel="stylesheet" href="/CSS/Style.css">
+</head>
+<body class="bg-slate-50 dark:bg-brand-navy text-slate-900 dark:text-white flex min-h-screen overflow-hidden transition-colors duration-300 relative">
+
+    <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/80 z-40 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
+
+    <div id="toastContainer" class="fixed bottom-6 right-6 z-[9999] flex flex-col gap-3 pointer-events-none"></div>
+
+    <div id="chatDrawer" class="fixed right-0 top-0 h-full w-full sm:w-96 bg-white dark:bg-[#070f1c] shadow-2xl transform translate-x-full transition-transform duration-300 z-[100] flex flex-col border-l border-slate-200 dark:border-slate-800">
+        <div class="h-20 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 bg-slate-50 dark:bg-[#111d2b]">
+            <div class="flex items-center gap-3 text-brand-blue">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+                </svg>
+                <h3 class="font-bold tracking-tight text-slate-900 dark:text-white">Internal Comms</h3>
+            </div>
+            <button onclick="toggleChat()" class="text-2xl hover:scale-110 transition-transform opacity-70 hover:opacity-100">&times;</button>
+        </div>
+        
+        <div id="chatMessages" class="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50/50 dark:bg-brand-navy/50">
+            <div class="flex flex-col items-start">
+                <span class="text-[10px] font-bold text-slate-400 mb-1 ml-1 uppercase">OPS_USER</span>
+                <div class="bg-slate-200 dark:bg-slate-800 px-4 py-3 rounded-2xl rounded-tl-sm text-sm">
+                    Hey Root, I just flagged Zenith Healthcare's recent document upload. Can you review?
+                </div>
+            </div>
+            <div class="flex flex-col items-start">
+                <span class="text-[10px] font-bold text-slate-400 mb-1 ml-1 uppercase">ROOT_USER</span>
+                <div class="bg-slate-200 dark:bg-slate-800 px-4 py-3 rounded-2xl rounded-tl-sm text-sm">
+                    Looking at it now. I'll verify their NAFDAC license cross-reference.
+                </div>
+            </div>
+        </div>
+
+        <div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111d2b]">
+            <form onsubmit="sendChatMessage(event)" class="flex gap-2">
+                <input type="text" id="chatInput" placeholder="Type a message..." class="flex-1 px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#070f1c] focus:outline-none focus:ring-2 focus:ring-brand-blue/50 text-sm" required>
+                <button type="submit" class="bg-brand-blue hover:bg-blue-700 text-white px-5 py-3 rounded-xl font-bold transition-colors shadow-lg shadow-blue-500/30">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <aside id="sidebar" class="absolute md:relative w-64 h-screen bg-slate-900 dark:bg-[#070f1c] text-slate-300 flex flex-col justify-between z-50 shrink-0 border-r border-slate-800 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
+        <div>
+            <div class="h-20 flex items-center px-8 border-b border-slate-800 bg-black/20">
+                <img src="/Images/QR logo.png" alt="Logo" class="h-6 w-auto mr-3 bg-white rounded-sm p-0.5">
+                <span class="text-white font-bold tracking-widest text-sm uppercase" id="sidebarBrand">System Ops</span>
+            </div>
+            <nav class="p-4 space-y-2 mt-4" id="sidebarMenu">
+                <button id="nav-ops" onclick="switchTab('ops')" class="w-full flex items-center px-4 py-3 bg-brand-blue/10 text-brand-blue border-l-4 border-brand-blue rounded-r-xl font-semibold transition-all">
+                    <span class="mr-3">🛡️</span> Operations
+                </button>
+                <button id="nav-support" onclick="switchTab('support')" class="w-full flex items-center px-4 py-3 hover:bg-slate-800 hover:text-white rounded-xl transition-all">
+                    <span class="mr-3">🏢</span> Co. Support
+                </button>
+                <button id="nav-audit" onclick="switchTab('audit')" class="w-full flex items-center px-4 py-3 hover:bg-slate-800 hover:text-white rounded-xl transition-all">
+                    <span class="mr-3">📜</span> Audit Logs
+                </button>
+            </nav>
+        </div>
+        <div class="p-6 border-t border-slate-800">
+            <button onclick="window.location.href='index.html'" class="w-full flex items-center px-4 py-3 text-red-400 hover:bg-red-400/10 rounded-xl transition-colors font-bold text-sm">
+                <span class="mr-3">🚪</span> Close Session
+            </button>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-screen overflow-y-auto w-full">
+        <header class="h-20 bg-white/80 dark:bg-brand-navy/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 md:px-10 sticky top-0 z-30 shrink-0">
+            <div class="flex items-center">
+                <button onclick="toggleSidebar()" class="md:hidden mr-4 text-2xl focus:outline-none hover:scale-110 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                </button>
+                <h1 class="text-xl md:text-2xl font-black tracking-tight truncate text-brand-blue" id="pageTitle">Platform Overview</h1>
+            </div>
+            
+            <div class="flex items-center gap-2 md:gap-4">
+                <button onclick="toggleChat()" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-full transition-colors cursor-pointer focus:outline-none relative" title="Internal Comms">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+                    </svg>
+                    <span class="absolute top-1 right-1 flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500 border-2 border-white dark:border-[#0A1628]"></span>
+                    </span>
+                </button>
+
+                <button id="themeToggle" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-full transition-colors cursor-pointer focus:outline-none" title="Switch Theme">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                    </svg>
+                </button>
+                
+                <div class="hidden sm:block ml-2 bg-slate-100 dark:bg-slate-800 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-mono">
+                    Role: <span id="adminNameDisplay" class="text-brand-blue font-bold uppercase">ROOT_USER</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="p-4 md:p-10">
+            
+            <div id="content-ops" class="tab-content block">
+                <div class="bg-blue-50 dark:bg-brand-blue/10 border border-brand-blue/20 p-4 rounded-xl mb-6 text-brand-blue font-semibold flex justify-between items-center">
+                    <span>👋 Welcome to the NAFDAC Operations Portal. Please review all pending manufacturer documents carefully.</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8">
+                    <div class="bg-white dark:bg-[#111d2b] p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+                        <p class="text-xs font-bold text-slate-400 uppercase">Pending Review</p>
+                        <p class="text-4xl font-black text-orange-500" id="pendingCount">12</p>
+                    </div>
+                    <div class="bg-white dark:bg-[#111d2b] p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+                        <p class="text-xs font-bold text-slate-400 uppercase">Approved Today</p>
+                        <p class="text-4xl font-black text-green-500" id="approvedCount">4</p>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-[#111d2b] rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <h3 class="text-sm font-bold uppercase tracking-widest">Pending Verification</h3>
+                        <input type="text" onkeyup="filterTable('opsTable', this.value)" placeholder="Search companies..." class="w-full sm:w-64 px-4 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#070f1c] focus:outline-none focus:ring-2 focus:ring-brand-blue/50 transition-shadow">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left min-w-[600px]" id="opsTable">
+                            <tr class="text-[10px] text-slate-400 uppercase border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111d2b]"><th class="px-6 py-4">Company</th><th class="px-6 py-4">Status</th><th class="px-6 py-4 text-right">Action</th></tr>
+                            <tr class="border-b border-slate-100 dark:border-slate-800 transition-all duration-500 searchable-row">
+                                <td class="px-6 py-4 font-semibold">Emzor Pharmaceuticals</td>
+                                <td class="px-6 py-4"><span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-xs font-bold">Docs Uploaded</span></td>
+                                <td class="px-6 py-4 text-right flex gap-2 justify-end">
+                                    <button onclick="handleAction(this, 'escalate', 'Emzor Pharmaceuticals')" class="bg-amber-100 text-amber-700 hover:bg-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:hover:bg-amber-900/50 px-4 py-2 rounded-lg text-xs font-bold transition-colors">Flag for Root</button>
+                                    <button onclick="handleAction(this, 'nafdac', 'Emzor Pharmaceuticals')" class="bg-brand-blue hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-xs font-bold transition-colors shadow-lg shadow-blue-500/30">Approve</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="content-support" class="tab-content hidden">
+                 <div class="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 p-4 rounded-xl mb-6 text-purple-700 dark:text-purple-400 font-semibold">
+                    📞 Welcome to Company Support. Manage manufacturer accounts and active QR quotas here.
+                </div>
+                 <div class="bg-white dark:bg-[#111d2b] rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <h3 class="text-sm font-bold uppercase tracking-widest">Active Companies</h3>
+                        <input type="text" onkeyup="filterTable('supportTable', this.value)" placeholder="Search companies..." class="w-full sm:w-64 px-4 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#070f1c] focus:outline-none focus:ring-2 focus:ring-brand-blue/50 transition-shadow">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left min-w-[600px]" id="supportTable">
+                            <tr class="text-[10px] text-slate-400 uppercase border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111d2b]"><th class="px-6 py-4">Company</th><th class="px-6 py-4">QR Quota</th><th class="px-6 py-4 text-right">Action</th></tr>
+                            <tr class="border-b border-slate-100 dark:border-slate-800 transition-all duration-500 searchable-row">
+                                <td class="px-6 py-4 font-semibold">Zenith Healthcare</td>
+                                <td class="px-6 py-4"><span id="zenithQuota">85,000</span> / 100,000 used</td>
+                                <td class="px-6 py-4 text-right flex gap-2 justify-end">
+                                    <button onclick="handleAction(this, 'escalate', 'Zenith Healthcare Quota')" class="bg-amber-100 text-amber-700 hover:bg-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:hover:bg-amber-900/50 px-4 py-2 rounded-lg text-xs font-bold transition-colors">Req Override</button>
+                                    <button onclick="handleAction(this, 'quota', 'Zenith Healthcare')" class="border border-slate-300 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-800 px-4 py-2 rounded-lg text-xs font-bold transition-colors">Increase</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="content-audit" class="tab-content hidden">
+                 <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-4 rounded-xl mb-6 text-red-700 dark:text-red-400 font-semibold flex justify-between items-center">
+                    <span>🚨 SUPER ADMIN VIEW. You are viewing the global immutable system logs.</span>
+                    <button onclick="showToast('Initiating secure CSV export...', 'info')" class="bg-white dark:bg-[#070f1c] border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-2 rounded-lg text-xs font-bold shadow-sm hover:scale-105 transition-transform">Export Data</button>
+                </div>
+                 <div class="bg-white dark:bg-[#111d2b] rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <h3 class="text-sm font-bold uppercase tracking-widest">Global Activity Log</h3>
+                        <input type="text" onkeyup="filterTable('auditTable', this.value)" placeholder="Search actors or events..." class="w-full sm:w-64 px-4 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-[#070f1c] focus:outline-none focus:ring-2 focus:ring-brand-blue/50 transition-shadow">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left min-w-[600px]" id="auditTable">
+                            <tr class="text-[10px] text-slate-400 uppercase border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-[#111d2b]"><th class="px-6 py-4">Time</th><th class="px-6 py-4">Actor</th><th class="px-6 py-4">Event</th><th class="px-6 py-4 text-right">Tag</th></tr>
+                            <tr class="border-b border-slate-100 dark:border-slate-800 searchable-row">
+                                <td class="px-6 py-4 text-xs font-mono text-slate-500">14:02:44</td>
+                                <td class="px-6 py-4 font-semibold">ops@verifyrx.com</td>
+                                <td class="px-6 py-4 text-slate-600 dark:text-slate-400">Approved Emzor Pharmaceuticals</td>
+                                <td class="px-6 py-4 text-right"><span class="px-2 py-1 bg-green-100 text-green-700 rounded text-[10px] font-bold">NAFDAC</span></td>
+                            </tr>
+                            <tr class="border-b border-slate-100 dark:border-slate-800 searchable-row">
+                                <td class="px-6 py-4 text-xs font-mono text-slate-500">12:15:10</td>
+                                <td class="px-6 py-4 font-semibold">Patient System</td>
+                                <td class="px-6 py-4 text-slate-600 dark:text-slate-400">Scanned QR Code #884920</td>
+                                <td class="px-6 py-4 text-right"><span class="px-2 py-1 bg-amber-100 text-amber-700 rounded text-[10px] font-bold">USED</span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Theme Logic
+            const themeBtn = document.getElementById('themeToggle');
+            const htmlElement = document.documentElement;
+            if(localStorage.getItem('theme') === 'dark') htmlElement.classList.add('dark');
+            if(themeBtn) {
+                themeBtn.addEventListener('click', () => {
+                    htmlElement.classList.toggle('dark');
+                    localStorage.setItem('theme', htmlElement.classList.contains('dark') ? 'dark' : 'light');
+                });
+            }
+
+            // Role Logic
+            const role = localStorage.getItem('adminRole') || 'root';
+            document.getElementById('adminNameDisplay').innerText = role.toUpperCase();
+
+            if (role === 'ops') {
+                document.getElementById('nav-support').remove();
+                document.getElementById('nav-audit').remove();
+                document.getElementById('sidebarBrand').innerText = "Ops Dept";
+                document.getElementById('pageTitle').innerText = "NAFDAC Operations Command";
+                switchTab('ops'); 
+            } else if (role === 'support') {
+                document.getElementById('nav-ops').remove();
+                document.getElementById('nav-audit').remove();
+                document.getElementById('sidebarBrand').innerText = "Support Dept";
+                document.getElementById('pageTitle').innerText = "Company Support Center";
+                switchTab('support'); 
+            } else {
+                document.getElementById('sidebarBrand').innerText = "God Mode";
+                document.getElementById('pageTitle').innerText = "Global Super Admin";
+                switchTab('audit'); 
+            }
+        });
+
+        // Chat Drawer Logic
+        function toggleChat() {
+            const drawer = document.getElementById('chatDrawer');
+            drawer.classList.toggle('translate-x-full');
+            
+            // Remove the red notification dot when opened
+            const chatBtn = document.querySelector('button[title="Internal Comms"]');
+            const redDot = chatBtn.querySelector('.absolute');
+            if (redDot) redDot.remove();
+        }
+
+        function sendChatMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            const chatMessages = document.getElementById('chatMessages');
+            const currentRole = (localStorage.getItem('adminRole') || 'root').toUpperCase();
+            
+            // Create the new message bubble
+            const msgDiv = document.createElement('div');
+            msgDiv.className = "flex flex-col items-end";
+            msgDiv.innerHTML = `
+                <span class="text-[10px] font-bold text-brand-blue mb-1 mr-1 uppercase">${currentRole}_USER (You)</span>
+                <div class="bg-brand-blue text-white px-4 py-3 rounded-2xl rounded-tr-sm text-sm shadow-md">
+                    ${message}
+                </div>
+            `;
+            
+            chatMessages.appendChild(msgDiv);
+            input.value = '';
+            
+            // Auto scroll to the bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Mobile Sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('-translate-x-full');
+            if (overlay.classList.contains('hidden')) overlay.classList.remove('hidden');
+            else overlay.classList.add('hidden');
+        }
+
+        // Tab Switcher
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('block');
+            });
+            const navButtons = ['nav-ops', 'nav-support', 'nav-audit'];
+            navButtons.forEach(id => {
+                const btn = document.getElementById(id);
+                if(btn) {
+                    btn.classList.remove('bg-brand-blue/10', 'text-brand-blue', 'border-l-4', 'border-brand-blue');
+                    btn.classList.add('hover:bg-slate-800', 'hover:text-white');
+                }
+            });
+            const selectedContent = document.getElementById('content-' + tabId);
+            const selectedBtn = document.getElementById('nav-' + tabId);
+            if(selectedContent) {
+                selectedContent.classList.remove('hidden');
+                selectedContent.classList.add('block');
+            }
+            if(selectedBtn) {
+                selectedBtn.classList.remove('hover:bg-slate-800', 'hover:text-white');
+                selectedBtn.classList.add('bg-brand-blue/10', 'text-brand-blue', 'border-l-4', 'border-brand-blue');
+            }
+            if (window.innerWidth < 768) {
+                const sidebar = document.getElementById('sidebar');
+                if (!sidebar.classList.contains('-translate-x-full')) toggleSidebar();
+            }
+        }
+
+        // Action Handlers & Toasts
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            let bgColor = 'bg-green-600';
+            if (type === 'info') bgColor = 'bg-brand-blue';
+            if (type === 'warning') bgColor = 'bg-amber-500 text-slate-900';
+            
+            toast.className = `flex items-center gap-3 px-6 py-4 rounded-xl shadow-2xl text-white font-bold transform transition-all duration-500 translate-y-10 opacity-0 ${bgColor}`;
+            
+            let icon = '✅';
+            if (type === 'info') icon = 'ℹ️';
+            if (type === 'warning') icon = '⚠️';
+            
+            toast.innerHTML = `<span class="text-xl">${icon}</span> <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-y-10', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 500);
+            }, 3500);
+        }
+
+        function handleAction(btnElement, actionType, companyName) {
+            const row = btnElement.closest('tr');
+            
+            if (actionType === 'nafdac') {
+                showToast(`Successfully forwarded ${companyName} to NAFDAC!`, 'success');
+                const pending = document.getElementById('pendingCount');
+                const approved = document.getElementById('approvedCount');
+                if(pending) pending.innerText = parseInt(pending.innerText) - 1;
+                if(approved) approved.innerText = parseInt(approved.innerText) + 1;
+                row.style.opacity = '0';
+                row.style.transform = 'translateX(20px)';
+                setTimeout(() => row.remove(), 500);
+            } else if (actionType === 'quota') {
+                showToast(`Quota successfully increased for ${companyName}!`, 'info');
+                document.getElementById('zenithQuota').innerText = "0";
+                btnElement.innerText = "Quota Reset";
+                btnElement.disabled = true;
+                btnElement.classList.add('opacity-50', 'cursor-not-allowed');
+            } else if (actionType === 'escalate') {
+                showToast(`Escalated ${companyName} to Root Admin for review.`, 'warning');
+                btnElement.innerText = "Escalated";
+                btnElement.disabled = true;
+                btnElement.classList.replace('bg-amber-100', 'bg-slate-200');
+                btnElement.classList.replace('text-amber-700', 'text-slate-500');
+                btnElement.classList.remove('hover:bg-amber-200');
+            }
+        }
+
+        // Instant Search
+        function filterTable(tableId, query) {
+            const table = document.getElementById(tableId);
+            if(!table) return;
+            const rows = table.getElementsByClassName('searchable-row');
+            const filterText = query.toLowerCase();
+            for (let i = 0; i < rows.length; i++) {
+                const rowText = rows[i].textContent || rows[i].innerText;
+                if (rowText.toLowerCase().indexOf(filterText) > -1) {
+                    rows[i].style.display = ""; 
+                } else {
+                    rows[i].style.display = "none"; 
+                }
+            }
+        }
+    </script>
+</body>
+</html>

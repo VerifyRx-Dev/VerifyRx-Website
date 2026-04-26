@@ -9,13 +9,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
                         brand: {
                             dark: '#0B1120',
-                            blue: '#1D4ED8',
+                            blue: '#1652F0',
                             light: '#EFF6FF'
                         }
                     }
@@ -25,18 +26,18 @@
     </script>
     <link rel="stylesheet" href="/CSS/Style.css">
 </head>
-<body class="font-sans text-slate-900 bg-white antialiased">
+<body class="font-sans text-slate-900 bg-white dark:bg-brand-dark dark:text-white antialiased transition-colors duration-300">
 
-    <nav id="navbar" class="fixed top-0 left-0 w-full z-[999] bg-white border-b border-transparent py-4 px-8 flex justify-between items-center transition-all duration-300">
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-[999] bg-white dark:bg-brand-dark/80 dark:backdrop-blur-md border-b border-transparent py-4 px-8 flex justify-between items-center transition-all duration-300">
         <div class="flex items-center gap-3">
-            <img src="Images/QR logo.png" alt="VerifyRx Logo" class="h-8 w-auto object-contain">
-            <span class="text-xl font-bold tracking-tight text-slate-900">Verify Rx</span>
+            <img src="/Images/QR logo.png" alt="VerifyRx Logo" class="h-8 w-auto object-contain bg-white rounded p-0.5">
+            <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Verify Rx</span>
         </div>
 
-        <div class="hidden lg:flex gap-8 text-sm font-medium text-slate-500">
-            <a href="#how-it-works" class="hover:text-slate-900 transition-colors">How it works</a>
-            <a href="#features" class="hover:text-slate-900 transition-colors">Features</a>
-            <a href="patients.html" class="hover:text-slate-900 transition-colors">For patients</a>
+        <div class="hidden lg:flex gap-8 text-sm font-medium text-slate-500 dark:text-slate-400">
+            <a href="#how-it-works" class="hover:text-slate-900 dark:hover:text-white transition-colors">How it works</a>
+            <a href="#features" class="hover:text-slate-900 dark:hover:text-white transition-colors">Features</a>
+            <a href="patients.html" class="hover:text-slate-900 dark:hover:text-white transition-colors">For patients</a>
         </div>
 
         <div class="flex gap-4 items-center">
@@ -45,8 +46,8 @@
         </div>
     </nav>
 
-    <section class="relative pt-32 pb-20 bg-[#0B1120] text-white overflow-hidden">
-        <div class="absolute inset-0 bg-grid-pattern"></div>
+    <section class="relative pt-32 pb-20 bg-brand-dark text-white overflow-hidden">
+        <div class="absolute inset-0 bg-grid-pattern opacity-20"></div>
         
         <div class="container mx-auto max-w-6xl px-6 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
             
@@ -78,7 +79,7 @@
 
             <div class="flex justify-center lg:justify-end reveal-element delay-100">
                 <div class="w-[300px] h-[600px] bg-[#111827] rounded-[2.5rem] phone-mockup relative overflow-hidden flex flex-col">
-                    <div class="bg-blue-600 text-center py-4 text-xs font-bold tracking-widest mt-6">VERIFYRX SCANNER</div>
+                    <div class="bg-blue-600 text-center py-4 text-xs font-bold tracking-widest mt-6 uppercase">VerifyRx Scanner</div>
                     
                     <div class="flex-1 relative flex items-center justify-center">
                         <div class="w-48 h-48 border-2 border-transparent relative">
@@ -90,7 +91,7 @@
                         </div>
                     </div>
 
-                    <div class="bg-white m-4 rounded-2xl p-4 flex gap-3">
+                    <div class="bg-white m-4 rounded-2xl p-4 flex gap-3 shadow-xl">
                         <div class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold shrink-0">✓</div>
                         <div>
                             <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Genuine —</p>
@@ -103,7 +104,7 @@
         </div>
     </section>
 
-    <div class="bg-white border-b border-slate-100 py-4 text-center">
+    <div class="bg-white dark:bg-brand-dark border-b border-slate-100 dark:border-slate-800 py-4 text-center transition-colors">
         <div class="flex justify-center items-center gap-6 text-xs font-bold text-slate-400 uppercase tracking-widest flex-wrap px-4">
             <span class="text-blue-500">Designed for</span>
             <span>NAFDAC Aligned</span>
@@ -114,70 +115,69 @@
         </div>
     </div>
 
-    <section id="how-it-works" class="py-32 bg-white px-6">
+    <section id="how-it-works" class="py-32 bg-white dark:bg-brand-dark px-6 transition-colors">
         <div class="container mx-auto max-w-5xl text-center">
             <p class="text-blue-600 text-xs font-bold tracking-widest uppercase mb-4">How it works</p>
-            <h2 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">Three steps between a patient <br>and a verified medicine</h2>
-            <p class="text-slate-500 max-w-2xl mx-auto mb-20 text-lg">Our end-to-end system connects manufacturers, pharmacists, and patients in one seamless verification chain.</p>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-6">Three steps between a patient <br>and a verified medicine</h2>
+            <p class="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto mb-20 text-lg">Our end-to-end system connects manufacturers, pharmacists, and patients in one seamless verification chain.</p>
 
-            <div class="grid md:grid-cols-3 gap-8 text-left border-t border-slate-100 pt-16">
-                <div class="reveal-element border-r border-slate-100 pr-8">
-                    <p class="text-7xl font-black text-slate-100 mb-6 tracking-tighter">01</p>
+            <div class="grid md:grid-cols-3 gap-8 text-left border-t border-slate-100 dark:border-slate-800 pt-16">
+                <div class="reveal-element border-r border-slate-100 dark:border-slate-800 pr-8">
+                    <p class="text-7xl font-black text-slate-100 dark:text-slate-800 mb-6 tracking-tighter">01</p>
                     <div class="text-2xl mb-4">🏭</div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Manufacturer registers</h3>
-                    <p class="text-slate-500 text-sm leading-relaxed">A pharmaceutical company joins VerifyRx and generates a batch of cryptographically signed QR codes — one unique code per drug pack.</p>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Manufacturer registers</h3>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">A pharmaceutical company joins VerifyRx and generates a batch of cryptographically signed QR codes — one unique code per drug pack.</p>
                 </div>
-                <div class="reveal-element delay-100 border-r border-slate-100 pr-8">
-                    <p class="text-7xl font-black text-slate-100 mb-6 tracking-tighter">02</p>
+                <div class="reveal-element delay-100 border-r border-slate-100 dark:border-slate-800 pr-8">
+                    <p class="text-7xl font-black text-slate-100 dark:text-slate-800 mb-6 tracking-tighter">02</p>
                     <div class="text-2xl mb-4">📦</div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Codes applied to packs</h3>
-                    <p class="text-slate-500 text-sm leading-relaxed">Each QR code is printed on the packaging at the factory. The code is signed with HMAC-SHA256, making it impossible to forge or duplicate.</p>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Codes applied to packs</h3>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Each QR code is printed on the packaging at the factory. The code is signed with HMAC-SHA256, making it impossible to forge or duplicate.</p>
                 </div>
                 <div class="reveal-element delay-200 pr-8">
-                    <p class="text-7xl font-black text-slate-100 mb-6 tracking-tighter">03</p>
+                    <p class="text-7xl font-black text-slate-100 dark:text-slate-800 mb-6 tracking-tighter">03</p>
                     <div class="text-2xl mb-4">📱</div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Patient scans & verifies</h3>
-                    <p class="text-slate-500 text-sm leading-relaxed">Anyone with a smartphone scans the QR code. The result is instant — genuine drug with product details, or a counterfeit warning. Each code works only once.</p>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Patient scans & verifies</h3>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">Anyone with a smartphone scans the QR code. The result is instant — genuine drug with product details, or a counterfeit warning. Each code works only once.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="features" class="py-24 bg-[#F8FAFC] px-6">
+    <section id="features" class="py-24 bg-[#F8FAFC] dark:bg-[#070f1c] px-6 transition-colors">
         <div class="container mx-auto max-w-6xl grid lg:grid-cols-2 gap-16 items-center">
-            
             <div class="reveal-element">
                 <p class="text-blue-600 text-xs font-bold tracking-widest uppercase mb-4">Why VerifyRx</p>
-                <h2 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">Built to stop counterfeits at every level</h2>
-                <p class="text-slate-500 mb-12 text-lg">Every feature is designed with one goal: making it impossible for a fake drug to reach a patient undetected.</p>
+                <h2 class="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-6 leading-tight">Built to stop counterfeits at every level</h2>
+                <p class="text-slate-500 dark:text-slate-400 mb-12 text-lg">Every feature is designed with one goal: making it impossible for a fake drug to reach a patient undetected.</p>
 
                 <div class="space-y-8">
                     <div class="flex gap-4">
                         <div class="mt-1">🔒</div>
                         <div>
-                            <h4 class="font-bold text-slate-900">One-time scan lock</h4>
-                            <p class="text-sm text-slate-500 mt-1">Each QR code is invalidated the moment it is scanned. If someone tries to scan a copied code, the system immediately flags it as a duplicate.</p>
+                            <h4 class="font-bold text-slate-900 dark:text-white">One-time scan lock</h4>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Each QR code is invalidated the moment it is scanned. If someone tries to scan a copied code, the system immediately flags it as a duplicate.</p>
                         </div>
                     </div>
                     <div class="flex gap-4">
                         <div class="mt-1">📡</div>
                         <div>
-                            <h4 class="font-bold text-slate-900">Offline partial verification</h4>
-                            <p class="text-sm text-slate-500 mt-1">The HMAC signature embedded in every code allows basic authenticity checks even without internet — critical for rural areas.</p>
+                            <h4 class="font-bold text-slate-900 dark:text-white">Offline partial verification</h4>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">The HMAC signature embedded in every code allows basic authenticity checks even without internet — critical for rural areas.</p>
                         </div>
                     </div>
                     <div class="flex gap-4">
                         <div class="mt-1">📍</div>
                         <div>
-                            <h4 class="font-bold text-slate-900">Geo-fraud intelligence</h4>
-                            <p class="text-sm text-slate-500 mt-1">Every scan is logged with GPS coordinates. Our system clusters suspicious scan patterns graphically and alerts manufacturers automatically.</p>
+                            <h4 class="font-bold text-slate-900 dark:text-white">Geo-fraud intelligence</h4>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Every scan is logged with GPS coordinates. Our system clusters suspicious scan patterns graphically and alerts manufacturers automatically.</p>
                         </div>
                     </div>
                     <div class="flex gap-4">
                         <div class="mt-1">⚡</div>
                         <div>
-                            <h4 class="font-bold text-slate-900">Under one second</h4>
-                            <p class="text-sm text-slate-500 mt-1">From scan to result in under 1 second. Powered by a globally distributed infrastructure that scales to millions of verifications.</p>
+                            <h4 class="font-bold text-slate-900 dark:text-white">Under one second</h4>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">From scan to result in under 1 second. Powered by a globally distributed infrastructure that scales to millions of verifications.</p>
                         </div>
                     </div>
                 </div>
@@ -203,7 +203,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
@@ -241,48 +240,135 @@
         </div>
     </section>
 
-    <section class="py-32 bg-[#0B1120] text-center px-6 border-b border-slate-800">
-        <div class="container mx-auto max-w-3xl reveal-element">
-            <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6">Ready to protect your patients and your brand?</h2>
-            <p class="text-slate-400 mb-10 text-lg">Join VerifyRx and start issuing authenticated QR codes for your drug products today.</p>
-            <div class="flex justify-center gap-4">
-                <a href="register.html" class="bg-blue-600 text-white font-bold px-8 py-4 rounded-xl hover:bg-blue-500 transition">Register your company &rarr;</a>
-                <a href="mailto:support@verifyrx.com" class="border border-slate-700 text-white font-bold px-8 py-4 rounded-xl hover:bg-slate-800 transition">Contact our team</a>
+    <footer class="bg-white dark:bg-brand-dark text-slate-900 dark:text-white px-8 py-20 border-t border-slate-100 dark:border-slate-800 transition-colors">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+            <div>
+                <div class="flex items-center gap-3 mb-6">
+                    <img src="/Images/QR logo.png" alt="Logo" class="h-10 w-auto bg-white rounded p-0.5">
+                    <span class="text-xl font-bold tracking-tight">Verify Rx</span>
+                </div>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-6">
+                    VerifyRx Global is a decentralized pharmaceutical integrity platform dedicated to eradicating counterfeit medicine through secure tracking.
+                </p>
+            </div>
+            
+            <div>
+                <h4 class="font-bold text-blue-600 mb-6 uppercase tracking-widest text-xs">Resources</h4>
+                <ul class="space-y-4 text-sm font-medium text-slate-500 dark:text-slate-400">
+                    <li><a href="how-it-works.html" class="hover:text-blue-600 transition-colors">Verification Guide</a></li>
+                    <li><a href="features.html" class="hover:text-blue-600 transition-colors">Platform Features</a></li>
+                    <li><a href="global-alerts.html" class="hover:text-blue-600 transition-colors">Global Safety Reports</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-blue-600 mb-6 uppercase tracking-widest text-xs">Organization</h4>
+                <ul class="space-y-4 text-sm font-medium text-slate-500 dark:text-slate-400">
+                    <li><a href="about-us.html" class="hover:text-blue-600 transition-colors">About Us</a></li>
+                    <li><a href="privacy.html" class="hover:text-blue-600 transition-colors">Privacy Policy</a></li>
+                    <li><a href="terms.html" class="hover:text-blue-600 transition-colors">Terms of Service</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-blue-600 mb-6 uppercase tracking-widest text-xs">Support</h4>
+                <ul class="space-y-4 text-sm font-medium text-slate-500 dark:text-slate-400">
+                    <li><a href="report-fake.html" class="hover:text-blue-600 transition-colors">Report Counterfeit</a></li>
+                    <li><a href="login.html" class="hover:text-blue-600 transition-colors">Manufacturer Portal</a></li>
+                    <li><a href="mailto:support@verifyrx.com" class="hover:text-blue-600 transition-colors">Contact Us</a></li>
+                </ul>
             </div>
         </div>
-    </section>
-
-    <footer class="bg-[#0B1120] text-white py-8 px-8">
-        <div class="container mx-auto max-w-6xl flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="flex items-center gap-2">
-                <img src="Images/QR logo.png" alt="VerifyRx Logo" class="h-6 w-auto object-contain">
-                <span class="text-lg font-bold tracking-tight">Verify Rx</span>
-            </div>
-            
-            <p class="text-slate-500 text-sm">&copy; 2026 VerifyRx. Saving lives through technology.</p>
-            
-            <div class="flex gap-6 text-sm text-slate-500 font-medium">
-                <a href="privacy.html" class="hover:text-white transition">Privacy</a>
-                <a href="terms.html" class="hover:text-white transition">Terms</a>
-                <a href="mailto:support@verifyrx.com" class="hover:text-white transition">Contact</a>
-            </div>
+        <div class="max-w-7xl mx-auto border-t border-slate-100 dark:border-slate-800 mt-16 pt-8 text-center text-xs text-slate-400 font-medium">
+            &copy; 2026 VerifyRx Global Platform. All Rights Reserved.
         </div>
     </footer>
 
+    <div id="adminModal" style="display:none; position:fixed; inset:0; background:rgba(10,22,40,0.98); z-index:99999; backdrop-filter:blur(12px); align-items:center; justify-content:center; color:white; font-family:sans-serif;">
+        <div style="background:#111d2b; padding:40px; border-radius:24px; border:1px solid #1e2d3d; width:90%; max-width:400px; text-align:center; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+            <img src="/Images/QR logo.png" alt="VerifyRx" style="width:50px; margin:0 auto 20px auto;">
+            <h2 id="adminTitle" style="margin-bottom:10px; font-size:22px; color:#1652F0; letter-spacing:1px; text-transform:uppercase; font-weight:bold;">System Ops Access</h2>
+            <p id="adminSub" style="color:#8b949e; font-size:13px; margin-bottom:25px;">Root authorization required</p>
+            <div id="adminStepContent">
+                <div id="step1">
+                    <input type="email" id="adminEmail" placeholder="Root Email" style="width:100%; padding:14px; margin-bottom:12px; border-radius:10px; border:1px solid #1e2d3d; background:#0A1628; color:white; outline:none;">
+                    <input type="password" id="adminPass" placeholder="Master Password" style="width:100%; padding:14px; margin-bottom:20px; border-radius:10px; border:1px solid #1e2d3d; background:#0A1628; color:white; outline:none;">
+                    <button onclick="nextAdminStep(2)" style="width:100%; padding:14px; background:#1652F0; color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer; transition:0.3s;">Initialize Protocol</button>
+                </div>
+            </div>
+            <p style="margin-top:25px; font-size:12px; color:#4e5d6d; cursor:pointer; text-decoration:underline;" onclick="closeAdmin()">Abort Access</p>
+        </div>
+    </div>
+
     <script>
+        // NAVIGATION SCROLL EFFECT
         document.addEventListener('DOMContentLoaded', () => {
             const nav = document.getElementById('navbar');
-            
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 20) {
-                    nav.classList.add('nav-scrolled');
+                    nav.classList.add('bg-white/95', 'dark:bg-brand-dark/95', 'shadow-sm');
                 } else {
-                    nav.classList.remove('nav-scrolled');
+                    nav.classList.remove('bg-white/95', 'dark:bg-brand-dark/95', 'shadow-sm');
                 }
             });
         });
+
+        // SECRET KEY LISTENER (A-D-M-1-N)
+        let typedKeys = "";
+        let lastKeyTime = Date.now();
+
+        window.addEventListener('keydown', (e) => {
+            const currentTime = Date.now();
+            const key = e.key.toUpperCase();
+            if (currentTime - lastKeyTime > 3000) typedKeys = "";
+            typedKeys += key;
+            lastKeyTime = currentTime;
+
+            if (typedKeys.includes("ADM1N")) {
+                document.getElementById('adminModal').style.display = 'flex';
+                typedKeys = ""; 
+            }
+        });
+
+        function closeAdmin() {
+            document.getElementById('adminModal').style.display = 'none';
+        }
+
+        function nextAdminStep(step) {
+            const content = document.getElementById('adminStepContent');
+            const title = document.getElementById('adminTitle');
+            const sub = document.getElementById('adminSub');
+            
+            if(step === 2) {
+                const emailInput = document.getElementById('adminEmail').value.toLowerCase();
+                let role = 'root'; 
+                if(emailInput.includes('ops')) role = 'ops';
+                else if(emailInput.includes('support')) role = 'support';
+                
+                localStorage.setItem('adminRole', role);
+
+                title.innerText = "Step 2: Sync Token";
+                sub.innerText = "Authenticator verification";
+                content.innerHTML = `
+                    <input type="text" placeholder="0 0 0 0 0 0" maxlength="6" style="width:100%; padding:14px; text-align:center; letter-spacing:8px; font-size:24px; border-radius:10px; background:#0A1628; color:#1652F0; border:1px solid #1e2d3d; outline:none; font-family:monospace;">
+                    <button onclick="nextAdminStep(3)" style="width:100%; margin-top:20px; padding:14px; background:#1652F0; border-radius:10px; border:none; color:white; font-weight:bold; cursor:pointer;">Verify OTP</button>
+                `;
+            } else if(step === 3) {
+                title.innerText = "Step 3: Passphrase";
+                sub.innerText = "Decryption key required";
+                content.innerHTML = `
+                    <input type="password" placeholder="Enter Secret Passphrase" style="width:100%; padding:14px; border-radius:10px; background:#0A1628; color:white; border:1px solid #1e2d3d; outline:none;">
+                    <button onclick="nextAdminStep(4)" style="width:100%; margin-top:20px; padding:14px; background:#1652F0; border-radius:10px; border:none; color:white; font-weight:bold; cursor:pointer;">Unlock Session</button>
+                `;
+            } else if(step === 4) {
+                title.innerText = "Step 4: Hardware PIN";
+                sub.innerText = "Physical security check";
+                content.innerHTML = `
+                    <input type="password" placeholder="****" maxlength="4" style="width:100%; padding:14px; text-align:center; font-size:24px; border-radius:10px; background:#0A1628; color:white; border:1px solid #1e2d3d; outline:none; letter-spacing:10px;">
+                    <button onclick="window.location.href='admin-dashboard.html'" style="width:100%; margin-top:20px; padding:14px; background:#00c853; border-radius:10px; border:none; color:white; font-weight:bold; cursor:pointer;">Grant Access</button>
+                `;
+            }
+        }
     </script>
-    
-    <script type="module" src="/JS/main.js"></script>
 </body>
 </html>
